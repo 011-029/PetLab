@@ -1,4 +1,4 @@
-package petLab;
+package pawLog;
 
 import facade.UIData;
 import mgr.Manageable;
