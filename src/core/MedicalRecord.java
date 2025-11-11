@@ -1,13 +1,12 @@
-package pawLog;
-
-import java.util.Scanner;
+package core;
 
 import facade.UIData;
 import mgr.Manageable;
 
-// 예방접종 기록 클래스
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해둔 상태)
-public class VaccineRecord implements Manageable, UIData {
+import java.util.Scanner;
+
+// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
+public class MedicalRecord implements Manageable, UIData {
 
     public void read(Scanner scan) {
 
