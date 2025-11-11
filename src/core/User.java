@@ -16,6 +16,10 @@ public class User implements Manageable, UIData {
 
     }
 
+    public boolean matches(String kwd) {
+        return false;
+    }
+
     @Override
     public void set(String[] uitexts) {
 
@@ -24,9 +28,5 @@ public class User implements Manageable, UIData {
     @Override
     public String[] getUITexts() {
         return new String[0];
-    }
-
-    public boolean matches(String kwd) {
-        return false;
     }
 }
