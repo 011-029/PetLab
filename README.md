@@ -5,10 +5,10 @@
 
 ## 🔴 Git 규칙
 
-1. 코드 작성은 __develop__ 브랜치에서
+1. 코드 작성은 **각자 담당한 issue**에서 **branch 생성** 후 해당 브랜치에서 작업 (브랜치 이름 규칙은 하단 참고)
 2. 되도록 하나의 `commit`에는 한 가지 목적만
-3. `commit` 후 __develop__ 브랜치에 `push` (master 브랜치로의 직접 `push` 금지)
-4. **develop** 브랜치에서 **정상 작동**되는 것을 확인한 뒤에, GitHub에서 **develop → master**로 `PR (Pull Request)` 올리기
+3. `commit` 후 **본인이 작업한 브랜치**에 `push` (master, develop 브랜치로의 직접 `push` 금지)
+4. **본인이 작업한** 브랜치에서 **정상 작동**되는 것을 확인한 뒤에, GitHub에서 **작업했던 브랜치 → develop**로 `PR (Pull Request)` 올리기
 5. 충돌 방지를 위해 `git pull` 자주 실행하기, 충돌 시 로컬에서 해결 후 `push`
 6. 불필요한 파일 포함 금지
 
