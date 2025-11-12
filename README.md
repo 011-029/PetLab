@@ -1,4 +1,4 @@
-# Paw Log 🐶🐱
+# Paw Log 🐾
 ###### 2025-1 객체지향 프로그래밍 PetLab 팀 프로젝트 
 
 <br>
@@ -33,6 +33,15 @@
 * 50자 이내로 간결하게 작성
 
 <br>
+
+## ⭐ branch 이름 규칙
+
+* 기능 추가 : `feature/기능명` ex. feature/pet-Info-Ui
+* 버그 수정 : `fix/버그명` ex. fix/login-error
+* 리팩토링 : `refactor/클래스명` ex.refactor/PetManager
+* 테스트용 : `test/기능명` ex. test/order-table
+
+ <br>
 
 ## 🐈 Project ― 일정 및 진척도 관리
 [링크](https://github.com/users/011-029/projects/1) 혹은 상단의 `Projects` 탭
