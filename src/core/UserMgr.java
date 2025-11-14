@@ -2,8 +2,6 @@ package core;
 
 import facade.DataEngineImpl;
 
-// 사용자 관리 클래스
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해둔 상태)
 public class UserMgr extends DataEngineImpl<User> {
     private static UserMgr mgr = null;
 
@@ -15,6 +13,33 @@ public class UserMgr extends DataEngineImpl<User> {
 
     @Override
     public void addNewRow(String[] uiTexts) {
+        // uiTexts → {"id", "password", "name"}
+        User u = new User();
+        u.set(uiTexts);
+        mList.add(u);
+    }
 
+    public boolean isDuplicatedId(String id) {
+        for (User u : mList) {
+            if (u.getId().equals(id))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean signUp(String id, String pw, String name) {
+        if (isDuplicatedId(id)) return false;
+
+        String[] arr = {id, pw, name};
+        addNewRow(arr);
+        return true;
+    }
+
+    public User login(String id, String pw) {
+        for (User u : mList) {
+            if (u.getId().equals(id) && u.checkPassword(pw))
+                return u;
+        }
+        return null;
     }
 }
