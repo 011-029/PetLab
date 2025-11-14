@@ -2,7 +2,8 @@ package core;
 
 import facade.DataEngineImpl;
 
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
+import java.util.ArrayList;
+
 public class PetMgr extends DataEngineImpl<Pet> {
     private static PetMgr mgr = null;
 
@@ -14,6 +15,21 @@ public class PetMgr extends DataEngineImpl<Pet> {
 
     @Override
     public void addNewRow(String[] uiTexts) {
+        Pet p = new Pet();
+        p.set(uiTexts);
+        mList.add(p);
+    }
 
+    public ArrayList<Pet> getPetsByOwner(String ownerId) {
+        ArrayList<Pet> result = new ArrayList<>();
+        for (Pet p : mList) {
+            if (p.getOwnerId().equals(ownerId))
+                result.add(p);
+        }
+        return result;
+    }
+
+    public void registerPet(String[] uiTexts) {
+        addNewRow(uiTexts);
     }
 }
