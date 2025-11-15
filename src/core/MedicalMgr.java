@@ -2,6 +2,10 @@ package core;
 
 import facade.DataEngineImpl;
 
+import java.awt.event.ActionEvent;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class MedicalMgr extends DataEngineImpl<MedicalRecord> {
     private static MedicalMgr mgr = null;
@@ -10,6 +14,15 @@ public class MedicalMgr extends DataEngineImpl<MedicalRecord> {
         if (mgr == null)
             mgr = new MedicalMgr();
         return mgr;
+    }
+
+    public ArrayList<MedicalRecord> searchPeriod(LocalDate start, LocalDate end) {
+        ArrayList<MedicalRecord> result = new ArrayList<>();
+        for(MedicalRecord r : mList) {
+            if(r.matchesPeriod(start,end))
+                result.add(r);
+        }
+        return result;
     }
 
     @Override
