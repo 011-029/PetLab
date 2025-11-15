@@ -29,7 +29,12 @@ public class Core {
 
     public void run() {
         // TODO: run() 구현
-        MedicalMgr.getInstance().readAll("medicalRecords.txt", () -> new MedicalRecord());
+        MedicalMgr.getInstance().readAll("medicalRecords.txt", new Factory<>() {
+            @Override
+            public MedicalRecord create() {
+                return new MedicalRecord();
+            }
+        });
         System.out.println("\n================= 병원 진료 기록 리스트 =================");
         medicalMgr.printAll();
     }
