@@ -2,6 +2,7 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import util.DateUtil;
 import util.ReadUtil;
 
 import java.time.LocalDate;
@@ -35,6 +36,10 @@ public class MedicalRecord implements Manageable, UIData {
         if (("" + cost).equals(kwd))
             return true;
         return false;
+    }
+
+    public boolean matchesPeriod(LocalDate start, LocalDate end){
+        return DateUtil.matchesInPeriod(date, start, end);
     }
 
     @Override
