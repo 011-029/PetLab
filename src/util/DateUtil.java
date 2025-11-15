@@ -8,9 +8,9 @@ public class DateUtil {
        if(start == null && end ==null)
            return true;
        if (start == null)
-           return !target.isAfter(start);
+           return !target.isAfter(end);
        if (end == null)
-           return !target.isBefore(end);
+           return !target.isBefore(start);
        return !target.isBefore(start) && !target.isAfter(end);
     }
 }
