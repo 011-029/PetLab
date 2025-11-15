@@ -16,7 +16,7 @@ public class Pet implements Manageable, UIData {
     private LocalDate birthDate;
     private double weight;
 
-    private ArrayList<MedicalRecord> medicalRecords = new ArrayList<>();
+    private final ArrayList<MedicalRecord> medicalRecords = new ArrayList<>();
 
     @Override
     public void read(Scanner scan) {

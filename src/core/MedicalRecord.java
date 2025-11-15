@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class MedicalRecord implements Manageable, UIData {
     int id;
-    String petName;
     LocalDate date;
     String hospital;
     String category;
@@ -18,7 +17,6 @@ public class MedicalRecord implements Manageable, UIData {
 
     public void read(Scanner scan) {
         id = scan.nextInt();
-        petName = scan.next();
         date = ReadUtil.readDate(scan);
         hospital = ReadUtil.readHospital(scan);
         category = scan.next();
@@ -26,8 +24,8 @@ public class MedicalRecord implements Manageable, UIData {
     }
 
     public void print() {
-        System.out.printf("[%s] 이름: %s 병원: %s / %s / %d원 \n",
-                date, petName, hospital, category, cost );
+        System.out.printf("[%s] 병원: %s / %s / %d원 \n",
+                date, hospital, category, cost );
     }
 
     public boolean matches(String kwd) {
@@ -51,7 +49,6 @@ public class MedicalRecord implements Manageable, UIData {
         hospital = uitexts[1];
         category = uitexts[2];
         cost = Integer.parseInt(uitexts[3]);
-        petName = uitexts[4]; // 나중에 위치 조정해야 함
     }
 
     @Override
@@ -65,9 +62,6 @@ public class MedicalRecord implements Manageable, UIData {
     }
 
     //getter
-    public String getPetName() {
-        return petName;
-    }
     public String getHospital(){
         return hospital;
     }
