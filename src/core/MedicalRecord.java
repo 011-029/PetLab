@@ -39,11 +39,20 @@ public class MedicalRecord implements Manageable, UIData {
 
     @Override
     public void set(String[] uitexts) {
-
+        // uitexts = {date, hospital, category, cost}
+        date = LocalDate.parse(uitexts[0]);
+        hospital = uitexts[1];
+        category = uitexts[2];
+        cost = Integer.parseInt(uitexts[3]);
     }
 
     @Override
     public String[] getUITexts() {
-        return new String[0];
+        return new String[] {
+                date.toString(),
+                hospital,
+                category,
+                String.valueOf(cost)
+        };
     }
 }

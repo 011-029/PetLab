@@ -14,6 +14,8 @@ public class MedicalMgr extends DataEngineImpl<MedicalRecord> {
 
     @Override
     public void addNewRow(String[] uiTexts) {
-
+        MedicalRecord r = new MedicalRecord();
+        r.set(uiTexts);
+        mList.add(r);
     }
 }
