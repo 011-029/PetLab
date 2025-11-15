@@ -28,11 +28,11 @@ public class MedicalRecord implements Manageable, UIData {
     }
 
     public boolean matches(String kwd) {
-        if(kwd.length() == 0)
+        if(kwd.isEmpty())
             return true;
         if(hospital.contains(kwd) || category.contains(kwd) )
             return true;
-        if(("" + cost).equals(kwd))
+        if (("" + cost).equals(kwd))
             return true;
         return false;
     }
