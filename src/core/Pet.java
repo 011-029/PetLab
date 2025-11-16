@@ -4,6 +4,7 @@ import facade.UIData;
 import mgr.Manageable;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Pet implements Manageable, UIData {
@@ -15,6 +16,8 @@ public class Pet implements Manageable, UIData {
     private LocalDate birthDate;
     private double weight;
 
+    private final ArrayList<MedicalRecord> medicalRecords = new ArrayList<>();
+
     @Override
     public void read(Scanner scan) {
         ownerId = scan.next();
@@ -23,6 +26,10 @@ public class Pet implements Manageable, UIData {
         gender = scan.next();
         birthDate = LocalDate.parse(scan.next()); 
         weight = scan.nextDouble();
+    }
+
+    public void addMedicalRecord(MedicalRecord r) {
+        medicalRecords.add(r);
     }
 
     @Override
@@ -58,4 +65,7 @@ public class Pet implements Manageable, UIData {
     // getter
     public String getOwnerId() { return ownerId; }
     public String getName() { return name; }
+    public ArrayList<MedicalRecord> getMedicalRecords(){
+        return medicalRecords;
+    }
 }
