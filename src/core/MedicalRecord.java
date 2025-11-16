@@ -9,14 +9,14 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MedicalRecord implements Manageable, UIData {
-    int id;
+    int index;
     LocalDate date;
     String hospital;
     String category;
     int cost;
 
     public void read(Scanner scan) {
-        id = scan.nextInt();
+        index = scan.nextInt();
         date = ReadUtil.readDate(scan);
         hospital = ReadUtil.readHospital(scan);
         category = scan.next();
