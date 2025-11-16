@@ -33,9 +33,7 @@ public class MedicalRecord implements Manageable, UIData {
             return true;
         if(hospital.contains(kwd) || category.contains(kwd) )
             return true;
-        if (("" + cost).equals(kwd))
-            return true;
-        return false;
+        return ("" + cost).equals(kwd);
     }
 
     public boolean matchesPeriod(LocalDate start, LocalDate end){
