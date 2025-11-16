@@ -46,6 +46,14 @@ public class Core {
         });
         System.out.println("\n================= 산책 기록 리스트 =================");
         walkMgr.printAll();
+
+        PlayMgr.getInstance().readAll("play.txt", new Factory<PlayRecord>() {
+            public PlayRecord create() {
+                return new PlayRecord();
+            }
+        });
+        System.out.println("\n================= 놀이 기록 리스트 =================");
+        playMgr.printAll();
     }
 
     // TODO: 필요 메서드 구현
