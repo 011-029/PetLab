@@ -2,22 +2,48 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import util.DateUtil;
+import util.ReadUtil;
 
+import java.sql.SQLOutput;
+import java.time.LocalDate;
 import java.util.Scanner;
 
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class WalkRecord implements Manageable, UIData {
+    int index;
+    LocalDate date;
+    int walkTime;
+    double distance;
+    String photoPath;
+    String memo;
 
     public void read(Scanner scan) {
+        index = scan.nextInt();
+        date = ReadUtil.readDate(scan);
+        walkTime = scan.nextInt();
+        distance = scan.nextDouble();
+        photoPath = scan.next();
+        memo = scan.nextLine();
+        System.out.println("hh");
 
     }
 
     public void print() {
-
+        System.out.printf("[%s] %d분 / %fkm ",
+                date, walkTime, distance);
+        if(!memo.equals("0")) System.out.printf("메모: %s\n", memo);
     }
 
     public boolean matches(String kwd) {
-        return false;
+        if(kwd.isEmpty())
+            return true;
+        if((""+walkTime).equals(kwd))
+            return true;
+        return memo.contains(kwd) || ("" + distance).contains(kwd);
+    }
+
+    public boolean matchesPeriod(LocalDate start, LocalDate end){
+        return DateUtil.matchesInPeriod(date, start, end);
     }
 
     @Override

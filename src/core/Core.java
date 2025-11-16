@@ -37,6 +37,15 @@ public class Core {
         });
         System.out.println("\n================= 병원 진료 기록 리스트 =================");
         medicalMgr.printAll();
+
+        WalkMgr.getInstance().readAll("medicalRecords.txt", new Factory<>() {
+            @Override
+            public WalkRecord create() {
+                return new WalkRecord();
+            }
+        });
+        System.out.println("\n================= 산책 기록 리스트 =================");
+        walkMgr.printAll();
     }
 
     // TODO: 필요 메서드 구현
