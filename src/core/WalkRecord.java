@@ -22,15 +22,13 @@ public class WalkRecord implements Manageable, UIData {
         walkTime = scan.nextInt();
         distance = scan.nextDouble();
         photoPath = scan.next();
-        memo = scan.nextLine();
-        System.out.println("hh");
-
+        memo = scan.nextLine().trim();
     }
 
     public void print() {
-        System.out.printf("[%s] %d분 / %fkm ",
+        System.out.printf("[%s] %d분 / %.2fkm ",
                 date, walkTime, distance);
-        if(!memo.equals("0")) System.out.printf("메모: %s\n", memo);
+        if(!memo.equals("0")) System.out.printf("/ 메모: %s\n", memo);
     }
 
     public boolean matches(String kwd) {
