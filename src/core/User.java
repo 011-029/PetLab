@@ -45,6 +45,10 @@ public class User implements Manageable, UIData {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean checkPassword(String pw) {
         return password.equals(pw);
     }
