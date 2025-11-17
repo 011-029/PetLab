@@ -27,7 +27,7 @@ public class MedicalRecord implements Manageable, UIData {
         System.out.printf("[%s] %s / %s / %s ",
                 date, hospital, category, cost== -1 ? "미정" : cost);
         if (!getDDayText().isEmpty()) System.out.printf("/ %s\n", getDDayText());
-        else System.out.printf("\n");
+        else System.out.print("\n");
     }
 
     public boolean matches(String kwd) {
