@@ -18,7 +18,8 @@ public class Core {
 
     static HealthMgr healthMgr = HealthMgr.getInstance();
     static MedicalMgr medicalMgr = MedicalMgr.getInstance();
-    static MedicineMgr medicineMgr = MedicineMgr.getInstance();
+    static MedicineRecordMgr medicineRecordMgr = MedicineRecordMgr.getInstance();
+    static MedicineRoutineMgr medicineRoutineMgr = MedicineRoutineMgr.getInstance();
     static PetMgr petMgr = PetMgr.getInstance();
     static PlayMgr playMgr = PlayMgr.getInstance();
     static UserMgr userMgr = UserMgr.getInstance();
@@ -54,6 +55,26 @@ public class Core {
         });
         System.out.println("\n================= 놀이 기록 리스트 =================");
         playMgr.printAll();
+
+        MedicineRecordMgr.getInstance().readAll("medicineRecord.txt", new Factory<MedicineRecord>() {
+            public MedicineRecord create() {
+                return new MedicineRecord();
+            }
+        });
+        System.out.println("\n================= 복용 기록 리스트 =================");
+        medicineRecordMgr.initNextIndexId();
+        medicineRecordMgr.printAll();
+
+        MedicineRoutineMgr.getInstance().readAll("medicineRoutine.txt", new Factory<MedicineRoutine>() {
+            public MedicineRoutine create() {
+                return new MedicineRoutine();
+            }
+        });
+        System.out.println("\n================= 복용 루틴 =================");
+        medicineRoutineMgr.printAll();
+        System.out.println("\n================= 오늘 복용해야 할 약 =================");
+        medicineRoutineMgr.printTodayRoutine();
+        medicineRoutineMgr.checkTaken();
     }
 
     // TODO: 필요 메서드 구현
