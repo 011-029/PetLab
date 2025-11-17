@@ -53,11 +53,15 @@ public class MedicalRecord implements Manageable, UIData {
 
     @Override
     public void set(String[] uitexts) {
-        // uitexts = {date, hospital, category, cost, petName}
+        // uitexts = {date, hospital, category, cost}
         date = LocalDate.parse(uitexts[0]);
         hospital = uitexts[1];
         category = uitexts[2];
-        cost = Integer.parseInt(uitexts[3]);
+        if (uitexts.length > 3 && !uitexts[3].isBlank()) {
+            cost = Integer.parseInt(uitexts[3]);
+        } else {
+            cost = -1;
+        }
     }
 
     @Override
@@ -66,7 +70,7 @@ public class MedicalRecord implements Manageable, UIData {
                 date.toString(),
                 hospital,
                 category,
-                String.valueOf(cost)
+                cost == -1 ? "" : String.valueOf(cost)
         };
     }
 
