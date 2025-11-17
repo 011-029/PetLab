@@ -45,6 +45,10 @@ public class User implements Manageable, UIData {
         return id;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public String getName() {
         return name;
     }
