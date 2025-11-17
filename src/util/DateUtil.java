@@ -28,6 +28,6 @@ public class DateUtil {
         long diff = getDDay(target);
         if (diff == 0) return "D-day";
         if (diff > 0) return "D-" + diff;
-        return "D+" + Math.abs(diff);
+        return "";
     }
 }
