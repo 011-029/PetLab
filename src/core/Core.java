@@ -110,7 +110,7 @@ public class Core {
         walkMgr.printAll();
 
         // 놀이 기록 출력
-        PlayMgr.getInstance().readAll("play.txt", new Factory<PlayRecord>() {
+        PlayMgr.getInstance().readAll("playRecord.txt", new Factory<PlayRecord>() {
             public PlayRecord create() {
                 return new PlayRecord();
             }
