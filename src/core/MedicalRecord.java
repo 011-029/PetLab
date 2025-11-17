@@ -20,12 +20,14 @@ public class MedicalRecord implements Manageable, UIData {
         date = ReadUtil.readDate(scan);
         hospital = ReadUtil.readHospital(scan);
         category = scan.next();
-        cost = scan.nextInt();
+        cost = scan.nextInt(); //cost 미정일 경우 -1로 받음
     }
 
     public void print() {
-        System.out.printf("[%s] %s / %s / %d원 / %s \n",
-                date, hospital, category, cost, getDDayText());
+        System.out.printf("[%s] %s / %s / %s ",
+                date, hospital, category, cost== -1 ? "미정" : cost);
+        if (!getDDayText().isEmpty()) System.out.printf("/ %s\n", getDDayText());
+        else System.out.printf("\n");
     }
 
     public boolean matches(String kwd) {
