@@ -24,7 +24,7 @@ public class MedicalRecord implements Manageable, UIData {
     }
 
     public void print() {
-        System.out.printf("[%s] %s / %s / %d원 (%s) \n",
+        System.out.printf("[%s] %s / %s / %d원 / %s \n",
                 date, hospital, category, cost, getDDayText());
     }
 
