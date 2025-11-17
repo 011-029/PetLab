@@ -24,8 +24,8 @@ public class MedicalRecord implements Manageable, UIData {
     }
 
     public void print() {
-        System.out.printf("[%s] %s / %s / %d원 \n",
-                date, hospital, category, cost );
+        System.out.printf("[%s] %s / %s / %d원 (%s) \n",
+                date, hospital, category, cost, getDDayText());
     }
 
     public boolean matches(String kwd) {
@@ -38,6 +38,15 @@ public class MedicalRecord implements Manageable, UIData {
 
     public boolean matchesPeriod(LocalDate start, LocalDate end){
         return DateUtil.matchesInPeriod(date, start, end);
+    }
+
+    //필요할 때 쓰기 (검색 등)
+    //public long getDDay() {
+    //    return DateUtil.getDDay(date);
+    //}
+
+    public String getDDayText() {
+        return DateUtil.getDDayText(date);
     }
 
     @Override
