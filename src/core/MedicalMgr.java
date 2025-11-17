@@ -25,6 +25,14 @@ public class MedicalMgr extends DataEngineImpl<MedicalRecord> {
         return result;
     }
 
+    public boolean deleteByIndex(int index) {
+        if (index < 0 || index >= mList.size()) {
+            return false;
+        }
+        mList.remove(index);
+        return true;
+    }
+
     @Override
     public void addNewRow(String[] uiTexts) {
         MedicalRecord r = new MedicalRecord();
