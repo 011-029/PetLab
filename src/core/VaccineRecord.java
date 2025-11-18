@@ -1,5 +1,9 @@
 package core;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
 import facade.UIData;
 import mgr.Manageable;
@@ -7,53 +11,54 @@ import mgr.Manageable;
 // 예방접종 기록 클래스
 public class VaccineRecord implements Manageable, UIData {
 
-    // 1. 필드 (데이터 저장 변수)
-    private String vaccineName; // 백신 이름
-    private String date;        // 접종 날짜
-    private String hospital;    // 병원 이름
+    String date;
+    String vaccine;
+    String hospital;
+    String memo;
 
-    // 2. 생성자 - 기본 (Manager가 파일 읽을 때 사용)
-    public VaccineRecord() {
-    }
+    private static final DateTimeFormatter FMT =
+            DateTimeFormatter.ofPattern("yyyy-MM--dd");
 
-    // 3. 생성자 - 화면용 (VaccinePanel에서 임시 데이터 만들 때 사용)
-    public VaccineRecord(String vaccineName, String date, String hospital) {
-        this.vaccineName = vaccineName;
-        this.date = date;
-        this.hospital = hospital;
-    }
+    public VaccineRecord() { }
 
-    // --- [Manageable 인터페이스 구현] ---
     @Override
     public void read(Scanner scan) {
-        // 파일에서 읽어올 때 순서대로 저장 (빈칸으로 구분된다고 가정)
-        vaccineName = scan.next();
+        if(!scan.hasNext()) return;
+
         date = scan.next();
-        hospital = scan.next();
+        if (scan.hasNext()) vaccine = scan.next();
+        if (scan.hasNext()) hospital = scan.next();
+
+        memo = scan.hasNextLine() ? scan.nextLine().trim() : "";
     }
 
     @Override
     public void print() {
-        // 콘솔에 출력해서 확인하는 용도
-        System.out.format("[%s] %s (%s)\n", vaccineName, date, hospital);
+        System.out.printf("%s %s %s %s (%s)\n",
+                safe(date), safe(vaccine), safe(hospital), safe(memo), getDDayText());
     }
 
     @Override
     public boolean matches(String kwd) {
-        // 검색 키워드(kwd)가 이름이나 날짜에 포함되어 있는지 확인
-        if (vaccineName.contains(kwd)) return true;
-        if (date.contains(kwd)) return true;
-        if (hospital.contains(kwd)) return true;
-        return false;
+        if (kwd == null || kwd.isBlank()) return true;
+        kwd = kwd.trim();
+
+        return safe(date).contains(kwd)
+                || safe(vaccine).contains(kwd)
+                || safe(hospital).contains(kwd)
+                || safe(memo).contains(kwd);
     }
 
     // --- [UIData 인터페이스 구현] ---
     @Override
-    public void set(String[] uitexts) {
-        // UI에서 수정된 내용을 변수에 저장
-        vaccineName = uitexts[0];
-        date = uitexts[1];
-        hospital = uitexts[2];
+    public void set(String[] uiTexts) {
+        if (uiTexts == null) return;
+
+        if (uiTexts.length > 0) date     = uiTexts[0];
+        if (uiTexts.length > 1) vaccine  = uiTexts[1];
+        if (uiTexts.length > 2) hospital = uiTexts[2];
+        if (uiTexts.length > 3) memo     = uiTexts[3];
+
     }
 
     @Override
@@ -75,4 +80,38 @@ public class VaccineRecord implements Manageable, UIData {
     public String getHospital() {
         return hospital;
     }
+
+    LocalDate parseDate() {
+        if(date == null || date.isBlank())
+            return null;
+        try {
+            return LocalDate.parse(date, FMT);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public long getDDay() {
+        LocalDate d = parseDate();
+        if (d == null) return 0;
+
+        LocalDate today = LocalDate.now();
+        return ChronoUnit.DAYS.between(today, d);
+    }
+
+    public String getDDayText() {
+        LocalDate d = parseDate();
+        if (d == null) return "";
+
+        long diff = getDDay();
+
+        if (diff == 0) return "D-day";
+        if (diff > 0) return "D-" + diff;
+        return "D+" + Math.abs(diff);
+    }
+
+    private String safe(String s) {
+        return (s == null ? "" : s.trim());
+    }
 }
+

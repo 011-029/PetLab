@@ -2,26 +2,45 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import util.DateUtil;
+import util.ReadUtil;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class MedicineRecord implements Manageable, UIData {
+    int indexId;          // 인덱스 번호
+    String medicineName;  // 약품명
+    LocalDate takenDate;  // 복용일
+    String takenTime;     // 복용 시간대 (아침, 점심, 저녁, 자기전)
+    int dosage;           // 복용량 (단위: mg)
 
     public void read(Scanner scan) {
-
+        indexId = scan.nextInt();
+        medicineName = scan.next();
+        takenDate = ReadUtil.readDate(scan);
+        takenTime = scan.next();
+        dosage = scan.nextInt();
     }
 
     public void print() {
-
+        System.out.printf("#%d [%s] %s / %s / %dmg",
+                indexId, takenDate, medicineName, takenTime, dosage);
+        System.out.println();
     }
 
     public boolean matches(String kwd) {
-        return false;
+        if (kwd.isEmpty())
+            return true;
+        return medicineName.contains(kwd) || takenTime.contains(kwd);
+    }
+
+    public boolean matchesPeriod(LocalDate start, LocalDate end){
+        return DateUtil.matchesInPeriod(takenDate, start, end);
     }
 
     @Override
-    public void set(String[] uitexts) {
+    public void set(String[] uiTexts) {
 
     }
 

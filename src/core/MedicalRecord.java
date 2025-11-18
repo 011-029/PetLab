@@ -2,31 +2,83 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import util.DateUtil;
+import util.ReadUtil;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class MedicalRecord implements Manageable, UIData {
+    int index;
+    LocalDate date;
+    String hospital;
+    String category;
+    int cost;
 
     public void read(Scanner scan) {
-
+        index = scan.nextInt();
+        date = ReadUtil.readDate(scan);
+        hospital = ReadUtil.readHospital(scan);
+        category = scan.next();
+        cost = scan.nextInt(); //cost 미정일 경우 -1로 받음
     }
 
     public void print() {
-
+        System.out.printf("[%s] %s / %s / %s ",
+                date, hospital, category, cost== -1 ? "미정" : cost);
+        if (!getDDayText().isEmpty()) System.out.printf("/ %s\n", getDDayText());
+        else System.out.print("\n");
     }
 
     public boolean matches(String kwd) {
-        return false;
+        if(kwd.isEmpty())
+            return true;
+        if(hospital.contains(kwd) || category.contains(kwd) )
+            return true;
+        return ("" + cost).equals(kwd);
+    }
+
+    public boolean matchesPeriod(LocalDate start, LocalDate end){
+        return DateUtil.matchesInPeriod(date, start, end);
+    }
+
+    //필요할 때 쓰기 (검색 등)
+    //public long getDDay() {
+    //    return DateUtil.getDDay(date);
+    //}
+
+    public String getDDayText() {
+        return DateUtil.getDDayText(date);
     }
 
     @Override
     public void set(String[] uitexts) {
-
+        // uitexts = {date, hospital, category, cost}
+        date = LocalDate.parse(uitexts[0]);
+        hospital = uitexts[1];
+        category = uitexts[2];
+        if (uitexts.length > 3 && !uitexts[3].isBlank()) {
+            cost = Integer.parseInt(uitexts[3]);
+        } else {
+            cost = -1;
+        }
     }
 
     @Override
     public String[] getUITexts() {
-        return new String[0];
+        return new String[] {
+                date.toString(),
+                hospital,
+                category,
+                cost == -1 ? "" : String.valueOf(cost)
+        };
+    }
+
+    //getter
+    public String getHospital(){
+        return hospital;
+    }
+    public String getCategory(){
+        return category;
     }
 }

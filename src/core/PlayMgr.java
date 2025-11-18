@@ -2,7 +2,9 @@ package core;
 
 import facade.DataEngineImpl;
 
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class PlayMgr extends DataEngineImpl<PlayRecord> {
     private static PlayMgr mgr = null;
 
@@ -10,6 +12,15 @@ public class PlayMgr extends DataEngineImpl<PlayRecord> {
         if (mgr == null)
             mgr = new PlayMgr();
         return mgr;
+    }
+
+    public ArrayList<PlayRecord> searchPeriod(LocalDate start, LocalDate end) {
+        ArrayList<PlayRecord> result = new ArrayList<>();
+        for(PlayRecord r : mList) {
+            if(r.matchesPeriod(start, end))
+                result.add(r);
+        }
+        return result;
     }
 
     @Override

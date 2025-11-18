@@ -4,7 +4,12 @@ import facade.DataEngineImpl;
 
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class HealthMgr extends DataEngineImpl<HealthRecord> {
+
     private static HealthMgr mgr = null;
+
+    private int nextIndex = 1;
+
+    private HealthMgr() { }
 
     public static HealthMgr getInstance() {
         if (mgr == null)
@@ -14,6 +19,11 @@ public class HealthMgr extends DataEngineImpl<HealthRecord> {
 
     @Override
     public void addNewRow(String[] uiTexts) {
+        HealthRecord r = new HealthRecord();
+        r.set(uiTexts);
+        r.index = nextIndex++;
+
+        mList.add(r);
 
     }
 }

@@ -5,28 +5,51 @@ import mgr.Manageable;
 
 import java.util.Scanner;
 
-// 사용자 클래스
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해둔 상태)
 public class User implements Manageable, UIData {
+
+    private String id;
+    private String password;
+    private String name;
+
+    @Override
     public void read(Scanner scan) {
-
+        id = scan.next();
+        password = scan.next();
+        name = scan.next();
     }
 
+    @Override
     public void print() {
-
+        System.out.printf("[User] %s (%s)\n", name, id);
     }
 
+    @Override
     public boolean matches(String kwd) {
-        return false;
+        return id.contains(kwd) || name.contains(kwd);
     }
 
     @Override
     public void set(String[] uitexts) {
-
+        // uitexts = {id, password, name}
+        id = uitexts[0];
+        password = uitexts[1];
+        name = uitexts[2];
     }
 
     @Override
     public String[] getUITexts() {
-        return new String[0];
+        return new String[]{id, password, name};
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean checkPassword(String pw) {
+        return password.equals(pw);
     }
 }
