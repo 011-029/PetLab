@@ -2,6 +2,7 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import util.ReadUtil;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Pet implements Manageable, UIData {
         name = scan.next();
         species = scan.next();
         gender = scan.next();
-        birthDate = LocalDate.parse(scan.next()); 
+        birthDate = ReadUtil.readDate(scan);
         weight = scan.nextDouble();
     }
 

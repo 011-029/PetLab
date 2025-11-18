@@ -1,7 +1,10 @@
 package core;
 
 import mgr.Factory;
+import util.ReadUtil;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -61,6 +64,8 @@ public class Core {
                 case 5 -> playMenu();
                 case 6 -> vaccineMenu();
                 case 7 -> walkMenu();
+                case 10 -> registerPet();
+                case 11 -> printPetsByOwner();
                 case 0 -> {
                     return;
                 }
@@ -117,11 +122,57 @@ public class Core {
         }
     }
 
+    // 펫 등록
+    private void registerPet() {
+        System.out.println("=============== 펫 등록 ===============");
+        System.out.print("반려동물 이름을 입력하세요: ");
+        String name = scan.next();
+        System.out.print("반려동물의 종을 입력하세요: ");
+        String species = scan.next();
+        System.out.print("반려동물의 성별을 입력하세요(암컷/수컷): ");
+        String gender = scan.next();
+        System.out.print("중성화 여부를 입력하세요(y/n): ");
+        boolean check = scan.next().equals("y");
+        System.out.print("생일을 입력하세요(yyyy-mm-dd): ");
+        LocalDate birth = ReadUtil.readDate(scan);
+        System.out.print("체중을 입력하세요(kg): ");
+        double weight = scan.nextDouble();
+
+        String[] petData = {
+                loggedInUser.getId(),
+                name,
+                species,
+                gender + ((check) ? "(중성화)" : ""),
+                birth.toString(),
+                String.valueOf(weight)
+        };
+        petMgr.registerPet(petData);
+        System.out.println("펫 등록 완료!");
+    }
+
+    // 내 펫 조회
+    private void printPetsByOwner() {
+        System.out.println("=============== 펫 목록 ===============");
+        System.out.printf("%s님의 펫 목록\n", loggedInUser.getName());
+        ArrayList<Pet> pets = petMgr.getPetsByOwner(loggedInUser.getId());
+        if (pets.isEmpty())
+            System.out.println("등록된 펫이 없습니다.");
+        else {
+            for (Pet p : pets)
+                p.print();
+        }
+    }
+
     // 초기 데이터 불러오기
     private void loadAllData() {
         UserMgr.getInstance().readAll("users.txt", new Factory<User> () {
             public User create() {
                 return new User();
+            }
+        });
+        PetMgr.getInstance().readAll("pets.txt", new Factory<Pet> () {
+            public Pet create() {
+                return new Pet();
             }
         });
         MedicalMgr.getInstance().readAll("medicalRecords.txt", new Factory<>() {
@@ -176,6 +227,8 @@ public class Core {
                 System.out.println("5. 놀이 기록 기능");
                 System.out.println("6. 예방접종 기록 기능");
                 System.out.println("7. 산책 기록 기능");
+                System.out.println("10. 내 펫 등록");
+                System.out.println("11. 내 펫 조회");
                 System.out.println("0. 종료");
                 System.out.print(">> 메뉴 입력: ");
                 return scan.nextInt();
