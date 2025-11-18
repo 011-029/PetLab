@@ -1,11 +1,12 @@
 package core;
 
 import facade.DataEngineImpl;
+import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class PlayMgr extends DataEngineImpl<PlayRecord> {
+public class PlayMgr extends PetRecordMgr<PlayRecord> {
     private static PlayMgr mgr = null;
 
     public static PlayMgr getInstance() {

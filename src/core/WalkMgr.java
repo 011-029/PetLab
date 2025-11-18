@@ -1,11 +1,11 @@
 package core;
 
-import facade.DataEngineImpl;
+import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class WalkMgr extends DataEngineImpl<WalkRecord> {
+public class WalkMgr extends PetRecordMgr<WalkRecord> {
     private static WalkMgr mgr = null;
 
     public static WalkMgr getInstance() {

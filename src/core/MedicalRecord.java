@@ -2,21 +2,27 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import mgr.PetOwned;
 import util.DateUtil;
 import util.ReadUtil;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class MedicalRecord implements Manageable, UIData {
-    int index;
+public class MedicalRecord implements Manageable, UIData, PetOwned {
+    int indexId;     // 인덱스 번호 (고유)
+    String ownerId;  // 어떤 유저의
+    String petName;  // 어떤 펫의 기록인지
+
     LocalDate date;
     String hospital;
     String category;
     int cost;
 
     public void read(Scanner scan) {
-        index = scan.nextInt();
+        indexId = scan.nextInt();
+        ownerId = scan.next();
+        petName = scan.next();
         date = ReadUtil.readDate(scan);
         hospital = ReadUtil.readHospital(scan);
         category = scan.next();
@@ -50,6 +56,17 @@ public class MedicalRecord implements Manageable, UIData {
     public String getDDayText() {
         return DateUtil.getDDayText(date);
     }
+
+    @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public String getPetName() {
+        return petName;
+    }
+
 
     @Override
     public void set(String[] uitexts) {
