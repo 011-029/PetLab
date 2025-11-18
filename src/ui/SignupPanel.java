@@ -3,6 +3,9 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
+import core.User;
+import core.UserMgr;
+import mgr.Factory;
 import ui.MainFrame;
 import ui.LoginPanel;
 
@@ -10,6 +13,15 @@ import ui.LoginPanel;
 public class SignupPanel extends JPanel {
 
     public SignupPanel() {
+
+        UserMgr.getInstance().readAll("users.txt", new Factory<User>() {
+            public User create() {
+                return new User();
+            }
+        });
+
+        UserMgr userMgr = UserMgr.getInstance();
+
         setLayout(null);
         setBackground(Color.WHITE);
 
@@ -63,7 +75,7 @@ public class SignupPanel extends JPanel {
             }
 
             // 2. 중복인지 확인 (UserDB한테 물어봄)
-            if (UserDB.isIdExists(inputId)) {
+            if (userMgr.isDuplicatedId(inputId)) {
                 // 중복일 때 (보여주신 사진처럼 뜸)
                 JOptionPane.showMessageDialog(this, "중복된 아이디입니다.", "아이디 중복 팝업창", JOptionPane.ERROR_MESSAGE);
                 idField.setText(""); // 입력창 비우기
@@ -84,7 +96,6 @@ public class SignupPanel extends JPanel {
             }
             
             // 가입 성공 시 DB에 저장 (그래야 다음번에 중복이라고 뜸)
-            UserDB.addUser(id); 
             JOptionPane.showMessageDialog(this, "회원가입 성공! 로그인 해주세요.");
             
             MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
