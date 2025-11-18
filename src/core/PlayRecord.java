@@ -2,22 +2,28 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import mgr.PetOwned;
 import util.DateUtil;
 import util.ReadUtil;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class PlayRecord implements Manageable, UIData {
-    int indexId;     // 인덱스 번호
+public class PlayRecord implements Manageable, UIData, PetOwned {
+    int indexId;     // 인덱스 번호 (고유)
+    String ownerId;  // 어떤 유저의
+    String petName;  // 어떤 펫의 기록인지
+
     LocalDate date;  // yyyy-mm-dd
     int playTime;    // 놀이 시간 (단위: 분)
     String playType; // 놀이 종류 (없으면 0)
     String memo;     // 메모 (없으면 0)
 
     public void read(Scanner scan) {
-        // 10 2025-11-16 35 낚싯대 체력 좋아보임
+        // 10 test 후추 2025-11-16 35 낚싯대 체력 좋아보임
         indexId = scan.nextInt();
+        ownerId = scan.next();
+        petName = scan.next();
         date = ReadUtil.readDate(scan);
         playTime = scan.nextInt();
         playType = scan.next();
@@ -41,6 +47,16 @@ public class PlayRecord implements Manageable, UIData {
 
     public boolean matchesPeriod(LocalDate start, LocalDate end){
         return DateUtil.matchesInPeriod(date, start, end);
+    }
+
+    @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public String getPetName() {
+        return petName;
     }
 
     @Override

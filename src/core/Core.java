@@ -72,7 +72,8 @@ public class Core {
                 default -> System.out.println("잘못 입력하셨습니다.");
             }
         }
-        // TODO: 실질적 로그인 기능 구현 (로그인한 유저 정보만 보이게)
+        // TODO: 로그인한 유저 정보만 보이는 기능 부분 구현함 (놀이 기능만)
+        // TODO: 나머지 기능에도 적용해야 함
     }
 
     // 메뉴 출력 & opt 입력
@@ -271,7 +272,8 @@ public class Core {
     // 놀이 기록 기능
     private void playMenu() {
         System.out.println("================= 놀이 기록 리스트 =================");
-        playMgr.printAll();
+//        playMgr.printAll();
+        playMgr.printByPet(loggedInUser.getId());
     }
 
     // 예방접종 기록 기능

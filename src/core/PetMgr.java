@@ -2,7 +2,6 @@ package core;
 
 import facade.DataEngineImpl;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +15,16 @@ public class PetMgr extends DataEngineImpl<Pet> {
         if (mgr == null)
             mgr = new PetMgr();
         return mgr;
+    }
+
+    // ownerId와 petName 으로 펫 객체 찾기
+    public Pet findPet(String ownerId, String petName) {
+        for (Pet p: mList) {
+            if (p.getOwnerId().equals(ownerId)
+            && p.getName().equals(petName))
+                return p;
+        }
+        return null;
     }
 
     @Override
