@@ -20,12 +20,14 @@ public class MedicalRecord implements Manageable, UIData {
         date = ReadUtil.readDate(scan);
         hospital = ReadUtil.readHospital(scan);
         category = scan.next();
-        cost = scan.nextInt();
+        cost = scan.nextInt(); //cost 미정일 경우 -1로 받음
     }
 
     public void print() {
-        System.out.printf("[%s] %s / %s / %d원 \n",
-                date, hospital, category, cost );
+        System.out.printf("[%s] %s / %s / %s ",
+                date, hospital, category, cost== -1 ? "미정" : cost);
+        if (!getDDayText().isEmpty()) System.out.printf("/ %s\n", getDDayText());
+        else System.out.print("\n");
     }
 
     public boolean matches(String kwd) {
@@ -40,13 +42,26 @@ public class MedicalRecord implements Manageable, UIData {
         return DateUtil.matchesInPeriod(date, start, end);
     }
 
+    //필요할 때 쓰기 (검색 등)
+    //public long getDDay() {
+    //    return DateUtil.getDDay(date);
+    //}
+
+    public String getDDayText() {
+        return DateUtil.getDDayText(date);
+    }
+
     @Override
     public void set(String[] uitexts) {
-        // uitexts = {date, hospital, category, cost, petName}
+        // uitexts = {date, hospital, category, cost}
         date = LocalDate.parse(uitexts[0]);
         hospital = uitexts[1];
         category = uitexts[2];
-        cost = Integer.parseInt(uitexts[3]);
+        if (uitexts.length > 3 && !uitexts[3].isBlank()) {
+            cost = Integer.parseInt(uitexts[3]);
+        } else {
+            cost = -1;
+        }
     }
 
     @Override
@@ -55,7 +70,7 @@ public class MedicalRecord implements Manageable, UIData {
                 date.toString(),
                 hospital,
                 category,
-                String.valueOf(cost)
+                cost == -1 ? "" : String.valueOf(cost)
         };
     }
 
