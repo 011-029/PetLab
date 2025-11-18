@@ -2,7 +2,6 @@ package core;
 
 import facade.DataEngineImpl;
 
-import java.awt.event.ActionEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -23,6 +22,14 @@ public class MedicalMgr extends DataEngineImpl<MedicalRecord> {
                 result.add(r);
         }
         return result;
+    }
+
+    public boolean deleteByIndex(int index) {
+        if (index < 0 || index >= mList.size()) {
+            return false;
+        }
+        mList.remove(index);
+        return true;
     }
 
     @Override
