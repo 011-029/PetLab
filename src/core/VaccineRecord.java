@@ -5,12 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
-
 import facade.UIData;
 import mgr.Manageable;
 
 // 예방접종 기록 클래스
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해둔 상태)
 public class VaccineRecord implements Manageable, UIData {
 
     String date;
@@ -51,6 +49,7 @@ public class VaccineRecord implements Manageable, UIData {
                 || safe(memo).contains(kwd);
     }
 
+    // --- [UIData 인터페이스 구현] ---
     @Override
     public void set(String[] uiTexts) {
         if (uiTexts == null) return;
@@ -64,13 +63,22 @@ public class VaccineRecord implements Manageable, UIData {
 
     @Override
     public String[] getUITexts() {
-        return new String[]{
-                safe(date),
-                safe(vaccine),
-                safe(hospital),
-                safe(memo),
-                getDDayText()
-        };
+        // 변수 내용을 UI(테이블 등)에 보여주기 위해 배열로 반환
+        return new String[] { vaccineName, date, hospital };
+    }
+
+    // --- [Getter 메서드] (VaccinePanel에서 사용) ---
+    // 아까 빨간 줄 뜨던 부분을 해결해주는 핵심 함수들입니다.
+    public String getVaccineName() {
+        return vaccineName;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getHospital() {
+        return hospital;
     }
 
     LocalDate parseDate() {

@@ -1,8 +1,7 @@
 package core;
 
-import mgr.Factory;
-
-import java.util.Scanner;
+import javax.swing.SwingUtilities;
+import ui.MainFrame;
 
 public class Core {
     private static Core core = null;
@@ -144,8 +143,10 @@ public class Core {
     // TODO: 필요 메서드 구현
 
     public static void main(String[] args) {
-        Core core = new Core();
-        core.run();
-    }
 
+        SwingUtilities.invokeLater(() -> {
+            new MainFrame();   // GUI 실행
+        });
+    }
 }
+
