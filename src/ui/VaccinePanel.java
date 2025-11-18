@@ -185,7 +185,7 @@ public class VaccinePanel extends JPanel {
             card.setBorder(new LineBorder(new Color(230, 230, 230), 1));
             
             // 백신명
-            JLabel nameLabel = new JLabel(record.getVaccineName());
+            JLabel nameLabel = new JLabel(record.getvaccine());
             nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
             nameLabel.setBounds(15, 15, 200, 20);
             card.add(nameLabel);

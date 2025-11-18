@@ -1,7 +1,11 @@
 package core;
 
 import javax.swing.SwingUtilities;
+
+import mgr.Factory;
 import ui.MainFrame;
+
+import java.util.Scanner;
 
 public class Core {
     private static Core core = null;
