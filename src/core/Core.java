@@ -1,5 +1,7 @@
 package core;
 
+import javax.swing.SwingUtilities;
+
 import mgr.Factory;
 import util.ReadUtil;
 
@@ -303,8 +305,8 @@ public class Core {
     }
 
     public static void main(String[] args) {
-        Core core = new Core();
-        core.run();
+         Core core = new Core();
+            core.run();
     }
-
 }
+

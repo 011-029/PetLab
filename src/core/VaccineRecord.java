@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
-
 import facade.UIData;
 import mgr.Manageable;
 import mgr.PetOwned;
@@ -25,6 +24,13 @@ public class VaccineRecord implements Manageable, UIData, PetOwned {
             DateTimeFormatter.ofPattern("yyyy-MM--dd");
 
     public VaccineRecord() { }
+
+    // 3. 생성자 - 화면용 (VaccinePanel에서 임시 데이터 만들 때 사용)
+    public VaccineRecord(String vaccineName, String date, String hospital) {
+        this.vaccine = vaccineName;
+        this.date = date;
+        this.hospital = hospital;
+    }
 
     @Override
     public void read(Scanner scan) {
@@ -57,6 +63,7 @@ public class VaccineRecord implements Manageable, UIData, PetOwned {
                 || safe(memo).contains(kwd);
     }
 
+    // --- [UIData 인터페이스 구현] ---
     @Override
     public void set(String[] uiTexts) {
         if (uiTexts == null) return;
@@ -70,13 +77,22 @@ public class VaccineRecord implements Manageable, UIData, PetOwned {
 
     @Override
     public String[] getUITexts() {
-        return new String[]{
-                safe(date),
-                safe(vaccine),
-                safe(hospital),
-                safe(memo),
-                getDDayText()
-        };
+        // 변수 내용을 UI(테이블 등)에 보여주기 위해 배열로 반환
+        return new String[] { vaccine, date, hospital };
+    }
+
+    // --- [Getter 메서드] (VaccinePanel에서 사용) ---
+    // 아까 빨간 줄 뜨던 부분을 해결해주는 핵심 함수들입니다.
+    public String getvaccine() {
+        return vaccine;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getHospital() {
+        return hospital;
     }
 
     LocalDate parseDate() {
