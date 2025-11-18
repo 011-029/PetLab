@@ -2,13 +2,15 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import mgr.PetOwned;
 
 import java.util.Scanner;
 
-// TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
-public class HealthRecord implements Manageable, UIData {
+public class HealthRecord implements Manageable, UIData, PetOwned {
+    int indexId;     // 인덱스 번호 (고유)
+    String ownerId;  // 어떤 유저의
+    String petName;  // 어떤 펫의 기록인지
 
-    int index;
     String date;
     int meal;
     int water;
@@ -19,7 +21,9 @@ public class HealthRecord implements Manageable, UIData {
 
     public void read(Scanner scan) {
 
-        index = scan.nextInt();
+        indexId = scan.nextInt();
+        ownerId = scan.next();
+        petName = scan.next();
         date = scan.next();
         meal = scan.nextInt();
         water = scan.nextInt();
@@ -33,7 +37,7 @@ public class HealthRecord implements Manageable, UIData {
 
     public void print() {
         System.out.printf("[%d] %s | 식사:%d 음수:%d 양치:%s | %s%n",
-                index, date, meal, water,
+                indexId, date, meal, water,
                 brushed != null ? brushed : "",
                 memo != null ? memo : ""
         );
@@ -51,6 +55,17 @@ public class HealthRecord implements Manageable, UIData {
     }
 
     @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public String getPetName() {
+        return petName;
+    }
+
+
+    @Override
     public void set(String[] uiTexts) {
         date = uiTexts[0];
         meal = Integer.parseInt(uiTexts[1]);
@@ -62,7 +77,7 @@ public class HealthRecord implements Manageable, UIData {
     @Override
     public String[] getUITexts() {
     return new String[]{
-    String.valueOf(index),
+    String.valueOf(indexId),
     date,
     String.valueOf(meal),
     String.valueOf(water),

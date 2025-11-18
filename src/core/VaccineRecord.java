@@ -2,16 +2,19 @@ package core;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Scanner;
 
 import facade.UIData;
 import mgr.Manageable;
+import mgr.PetOwned;
 
 // 예방접종 기록 클래스
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해둔 상태)
-public class VaccineRecord implements Manageable, UIData {
+public class VaccineRecord implements Manageable, UIData, PetOwned {
+    int indexId;     // 인덱스 번호 (고유)
+    String ownerId;  // 어떤 유저의
+    String petName;  // 어떤 펫의 기록인지
 
     String date;
     String vaccine;
@@ -27,6 +30,9 @@ public class VaccineRecord implements Manageable, UIData {
     public void read(Scanner scan) {
         if(!scan.hasNext()) return;
 
+        indexId = scan.nextInt();
+        ownerId = scan.next();
+        petName = scan.next();
         date = scan.next();
         if (scan.hasNext()) vaccine = scan.next();
         if (scan.hasNext()) hospital = scan.next();
@@ -101,6 +107,17 @@ public class VaccineRecord implements Manageable, UIData {
         if (diff > 0) return "D-" + diff;
         return "D+" + Math.abs(diff);
     }
+
+    @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public String getPetName() {
+        return petName;
+    }
+
 
     private String safe(String s) {
         return (s == null ? "" : s.trim());

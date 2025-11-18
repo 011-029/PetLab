@@ -2,14 +2,18 @@ package core;
 
 import facade.UIData;
 import mgr.Manageable;
+import mgr.PetOwned;
 import util.DateUtil;
 import util.ReadUtil;
 
 import java.time.LocalDate;
 import java.util.Scanner;
 
-public class MedicineRecord implements Manageable, UIData {
-    int indexId;          // 인덱스 번호
+public class MedicineRecord implements Manageable, UIData, PetOwned {
+    int indexId;     // 인덱스 번호 (고유)
+    String ownerId;  // 어떤 유저의
+    String petName;  // 어떤 펫의 기록인지
+
     String medicineName;  // 약품명
     LocalDate takenDate;  // 복용일
     String takenTime;     // 복용 시간대 (아침, 점심, 저녁, 자기전)
@@ -17,6 +21,8 @@ public class MedicineRecord implements Manageable, UIData {
 
     public void read(Scanner scan) {
         indexId = scan.nextInt();
+        ownerId = scan.next();
+        petName = scan.next();
         medicineName = scan.next();
         takenDate = ReadUtil.readDate(scan);
         takenTime = scan.next();
@@ -38,6 +44,17 @@ public class MedicineRecord implements Manageable, UIData {
     public boolean matchesPeriod(LocalDate start, LocalDate end){
         return DateUtil.matchesInPeriod(takenDate, start, end);
     }
+
+    @Override
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    @Override
+    public String getPetName() {
+        return petName;
+    }
+
 
     @Override
     public void set(String[] uiTexts) {

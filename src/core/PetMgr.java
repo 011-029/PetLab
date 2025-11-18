@@ -39,6 +39,14 @@ public class PetMgr extends DataEngineImpl<Pet> {
         saveAll(PET_INFO_FILE);
     }
 
+    public Pet getPetByOwner(String ownerId) {
+        for (Pet p: mList) {
+            if (p.getOwnerId().equals(ownerId))
+                return p;
+        }
+        return null;
+    }
+
     public ArrayList<Pet> getPetsByOwner(String ownerId) {
         ArrayList<Pet> result = new ArrayList<>();
         for (Pet p : mList) {

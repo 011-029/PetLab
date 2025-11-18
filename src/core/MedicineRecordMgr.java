@@ -1,11 +1,11 @@
 package core;
 
-import facade.DataEngineImpl;
+import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MedicineRecordMgr extends DataEngineImpl<MedicineRecord> {
+public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     private static MedicineRecordMgr mgr = null;
     int nextIndexId = -1;   // 루틴 → 기록 넘길 시 자동 배정될 인덱스 번호
 

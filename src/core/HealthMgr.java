@@ -1,9 +1,9 @@
 package core;
 
-import facade.DataEngineImpl;
+import mgr.PetRecordMgr;
 
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
-public class HealthMgr extends DataEngineImpl<HealthRecord> {
+public class HealthMgr extends PetRecordMgr<HealthRecord> {
 
     private static HealthMgr mgr = null;
 
@@ -21,7 +21,7 @@ public class HealthMgr extends DataEngineImpl<HealthRecord> {
     public void addNewRow(String[] uiTexts) {
         HealthRecord r = new HealthRecord();
         r.set(uiTexts);
-        r.index = nextIndex++;
+        r.indexId = nextIndex++;
 
         mList.add(r);
 

@@ -23,6 +23,7 @@ public class Core {
     static UserMgr userMgr = UserMgr.getInstance();
     static PetMgr petMgr = PetMgr.getInstance();
     User loggedInUser;
+    Pet loggedInUserPet;
 
     static HealthMgr healthMgr = HealthMgr.getInstance();
     static MedicalMgr medicalMgr = MedicalMgr.getInstance();
@@ -72,8 +73,6 @@ public class Core {
                 default -> System.out.println("잘못 입력하셨습니다.");
             }
         }
-        // TODO: 로그인한 유저 정보만 보이는 기능 부분 구현함 (놀이 기능만)
-        // TODO: 나머지 기능에도 적용해야 함
     }
 
     // 메뉴 출력 & opt 입력
@@ -87,6 +86,35 @@ public class Core {
             } catch (InputMismatchException e) {
                 System.out.println("잘못 입력하셨습니다.");
                 scan.nextLine(); // 버퍼 비움
+            }
+        }
+    }
+
+    private int mainMenu() {
+        System.out.println("=================================================");
+        updatePet(loggedInUser.getId());
+        if (loggedInUserPet == null) {
+            System.out.println("(현재 등록된 반려동물이 없습니다.)");
+        } else {
+            System.out.printf("(현재 선택된 펫: %s)\n", loggedInUserPet.getName());
+        }
+        while (true) {
+            try {
+                System.out.println("1. 건강 기록 기능");
+                System.out.println("2. 병원 진료 기록 기능");
+                System.out.println("3. 복용 기록 기능");
+                System.out.println("4. 복용 루틴 기능");
+                System.out.println("5. 놀이 기록 기능");
+                System.out.println("6. 예방접종 기록 기능");
+                System.out.println("7. 산책 기록 기능");
+                System.out.println("10. 내 펫 등록");
+                System.out.println("11. 내 펫 조회");
+                System.out.println("0. 종료");
+                System.out.print(">> 메뉴 입력: ");
+                return scan.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("잘못 입력하셨습니다.");
+                scan.nextLine();
             }
         }
     }
@@ -115,6 +143,7 @@ public class Core {
 
         if (u != null) {
             loggedInUser = u;
+            updatePet(id);
             System.out.printf("%s님 환영합니다.\n", u.getName());
             return true;
         } else {
@@ -217,54 +246,33 @@ public class Core {
 //        });
     }
 
-    private int mainMenu() {
-        System.out.println("=================================================");
-        while (true) {
-            try {
-                System.out.println("1. 건강 기록 기능");
-                System.out.println("2. 병원 진료 기록 기능");
-                System.out.println("3. 복용 기록 기능");
-                System.out.println("4. 복용 루틴 기능");
-                System.out.println("5. 놀이 기록 기능");
-                System.out.println("6. 예방접종 기록 기능");
-                System.out.println("7. 산책 기록 기능");
-                System.out.println("10. 내 펫 등록");
-                System.out.println("11. 내 펫 조회");
-                System.out.println("0. 종료");
-                System.out.print(">> 메뉴 입력: ");
-                return scan.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("잘못 입력하셨습니다.");
-                scan.nextLine();
-            }
-        }
-    }
-
     // 건강 기록 기능
     private void healthMenu() {
         // TODO: 건강 기록 데이터 생성 후 아래 주석 해제
 //        System.out.println("================= 건강 기록 리스트 =================");
-//        healthMgr.printAll();
+//        healthMgr.printByPet(loggedInUser.getId());
+        System.out.println("구현중");
     }
 
     // 진료 기록 기능
     private void medicalMenu() {
         System.out.println("================= 병원 진료 기록 리스트 =================");
-        medicalMgr.printAll();
+        medicalMgr.printByPet(loggedInUser.getId());
     }
 
     // 복용 기록 기능
     private void medicineRecordMenu() {
         System.out.println("================= 복용 기록 리스트 =================");
         medicineRecordMgr.initNextIndexId();
-        medicineRecordMgr.printAll();
+        medicineRecordMgr.printByPet(loggedInUser.getId());
     }
 
     // 복용 루틴 기능
     private void medicineRoutineMenu() {
         System.out.println("================= 복용 루틴 =================");
-        medicineRoutineMgr.printAll();
+        medicineRoutineMgr.printByPet(loggedInUser.getId());
         System.out.println("-------------- 오늘 복용해야 할 약 --------------");
+        // TODO: 로그인한 유저 루틴만 출력
         medicineRoutineMgr.printTodayRoutine();
         medicineRoutineMgr.checkTaken();
     }
@@ -272,7 +280,6 @@ public class Core {
     // 놀이 기록 기능
     private void playMenu() {
         System.out.println("================= 놀이 기록 리스트 =================");
-//        playMgr.printAll();
         playMgr.printByPet(loggedInUser.getId());
     }
 
@@ -280,15 +287,20 @@ public class Core {
     private void vaccineMenu() {
         // TODO: 예방접종 기록 데이터 생성 후 아래 주석 해제
 //        System.out.println("================= 예방접종 기록 리스트 =================");
-//        vaccineMgr.printAll();
+//        vaccineMgr.printByPet(loggedInUser.getId());
+        System.out.println("구현중");
     }
 
     // 산책 기록 기능
     private void walkMenu() {
         System.out.println("================= 산책 기록 리스트 =================");
-        walkMgr.printAll();
+        walkMgr.printByPet(loggedInUser.getId());
     }
 
+    // 등록된 펫 업데이트
+    private void updatePet(String ownerId) {
+        loggedInUserPet = petMgr.getPetByOwner(ownerId);
+    }
 
     public static void main(String[] args) {
         Core core = new Core();
