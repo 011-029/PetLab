@@ -69,6 +69,7 @@ public class Core {
                 case 7 -> walkMenu();
                 case 10 -> registerPet();
                 case 11 -> printPetsByOwner();
+                case 12 -> search();
                 case 0 -> {
                     return;
                 }
@@ -111,6 +112,7 @@ public class Core {
                 System.out.println("7. 산책 기록 기능");
                 System.out.println("10. 내 펫 등록");
                 System.out.println("11. 내 펫 조회");
+                System.out.println("12. 검색 기능");
                 System.out.println("0. 종료");
                 System.out.print(">> 메뉴 입력: ");
                 return scan.nextInt();
@@ -297,6 +299,120 @@ public class Core {
     private void walkMenu() {
         System.out.println("================= 산책 기록 리스트 =================");
         walkMgr.printByPet(loggedInUser.getId());
+    }
+
+    private void search() {
+        while (true){
+            System.out.println("\n===== 검색/테스트 메뉴 =====");
+            System.out.println("1. 진료 기록 기간 검색");
+            System.out.println("2. 산책 기록 기간 검색");
+            System.out.println("3. 진료 기록 키워드 검색");
+            System.out.println("4. 산책 기록 키워드 검색");
+            System.out.println("0. 종료");
+
+            String cmd = scan.next();
+
+            switch (cmd) {
+                case "1" -> {
+                    scan.nextLine();
+                    System.out.print("기간 입력 (예: 2025-01-01 2025-02-01, 0은 생략): ");
+                    String line = scan.nextLine().trim();
+
+                    if (line.isEmpty()) {
+                        var list = medicalMgr.mList;   // 전체 목록
+                        System.out.println("\n== 전체 진료 기록 ==");
+                        for (MedicalRecord r : list) r.print();
+                        break;
+                    }
+
+                    String[] parts = line.split("\\s+");
+                    String s = parts.length > 0 ? parts[0] : "0";
+                    String e = parts.length > 1 ? parts[1] : "0";
+
+                    LocalDate start = s.equals("0") ? null : LocalDate.parse(s);
+                    LocalDate end   = e.equals("0") ? null : LocalDate.parse(e);
+
+                    var list = medicalMgr.searchPeriod(start, end);
+
+                    System.out.println("\n== 진료 기록 검색 결과 ==");
+                    for (MedicalRecord r : list) r.print();
+                }
+
+                // 2. 산책 기록 기간 검색 -----------------------------
+                case "2" -> {
+                    scan.nextLine();
+                    System.out.print("기간 입력 (예: 2025-01-01 2025-02-01, 0은 생략): ");
+                    String line = scan.nextLine().trim();
+
+                    if (line.isEmpty()) {
+                        var list = walkMgr.mList;
+                        System.out.println("\n== 전체 산책 기록 ==");
+                        for (WalkRecord r : list) r.print();
+                        break;
+                    }
+
+                    String[] parts = line.split("\\s+");
+                    String s = parts.length > 0 ? parts[0] : "0";
+                    String e = parts.length > 1 ? parts[1] : "0";
+
+                    LocalDate start = s.equals("0") ? null : LocalDate.parse(s);
+                    LocalDate end   = e.equals("0") ? null : LocalDate.parse(e);
+
+                    var list = walkMgr.searchPeriod(start, end);
+
+                    System.out.println("\n== 산책 기록 검색 결과 ==");
+                    for (WalkRecord r : list) r.print();
+                }
+
+                // 3. 진료 기록 키워드 검색 --------------------------
+                case "3" -> {
+                    System.out.print("키워드 입력: ");
+                    scan.nextLine();
+                    String kwd = scan.nextLine().trim();
+
+                    if (kwd.isEmpty()) {
+                        System.out.println("\n== 전체 진료 기록 ==");
+                        for (MedicalRecord r : medicalMgr.mList) r.print();
+                        break;
+                    }
+
+                    System.out.println("\n== 진료 기록 검색 결과 ==");
+                    for (MedicalRecord r : medicalMgr.mList)
+                        if (r.matches(kwd)) r.print();
+                }
+
+                // 4. 산책 기록 키워드 검색 --------------------------
+                case "4" -> {
+                    System.out.print("키워드 입력: ");
+                    scan.nextLine();
+                    String kwd = scan.nextLine().trim();
+
+                    if(kwd.isEmpty()){
+                        System.out.println("\n== 전체 산책 기록 ==");
+                        for (WalkRecord r : walkMgr.mList) r.print();
+                        break;
+                    }
+
+                    System.out.println("\n== 산책 기록 검색 결과 ==");
+                    for (WalkRecord r : walkMgr.mList)
+                        if (r.matches(kwd)) r.print();
+                }
+
+                // 5. 오늘 루틴 보기 + 체크 ---------------------------
+                case "5" -> {
+                    System.out.println("\n----------------- 오늘 복용해야 할 약 -----------------");
+                    medicineRoutineMgr.printTodayRoutine();
+                    medicineRoutineMgr.checkTaken();
+                }
+
+                // 0. 종료 --------------------------------------------
+                case "0" -> {
+                    System.out.println("메뉴 종료");
+                    return;
+                }
+                default -> System.out.println("잘못 입력했습니다.");
+            }
+        }
     }
 
     // 등록된 펫 업데이트
