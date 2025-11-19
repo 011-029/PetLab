@@ -36,7 +36,7 @@ public class PetMgr extends DataEngineImpl<Pet> {
 
     public void registerPet(String[] uiTexts) {
         addNewRow(uiTexts);
-        saveAll(PET_INFO_FILE);
+        saveToFile(PET_INFO_FILE);
     }
 
     public Pet getPetByOwner(String ownerId) {
@@ -56,7 +56,7 @@ public class PetMgr extends DataEngineImpl<Pet> {
         return result;
     }
 
-    public void saveAll(String filename) {
+    public void saveToFile(String filename) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(filename))) {
             for (Pet p: mList) {
                 String[] arr = p.getUITexts();
