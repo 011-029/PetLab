@@ -3,12 +3,23 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
+import core.User;
+import core.UserMgr;
+import mgr.Factory;
 import ui.MainFrame;
 import ui.SignupPanel;
 
 public class LoginPanel extends JPanel {
 
     public LoginPanel() {
+        UserMgr.getInstance().readAll("users.txt", new Factory<User>() {
+            public User create() {
+                return new User();
+            }
+        });
+
+        UserMgr userMgr = UserMgr.getInstance();
+
         setLayout(null);
         setBackground(Color.WHITE);
 
@@ -52,9 +63,26 @@ public class LoginPanel extends JPanel {
         });
 
         loginBtn.addActionListener(e -> {
-            // (여기 나중에 진짜 로그인 검증 넣어도 됨)
-            MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-            frame.switchPanel(new MainPanel());
+            String id = idField.getText().trim();
+            String pw = pwField.getText().trim();
+
+            if(id.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "아이디를 입력하세요.");
+                return;
+            }
+            if (pw.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "비밀번호를 입력하세요.");
+                return;
+            }
+
+            // 로그인 검증
+            User u = userMgr.login(id, pw);
+            if (u != null) {
+                MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+                frame.switchPanel(new MainPanel());
+            } else {
+                JOptionPane.showMessageDialog(this, "ID 또는 비밀번호가 틀렸습니다.");
+            }
         });
 
     }
