@@ -30,18 +30,17 @@ public class MainPanel extends JPanel {
         separator.setForeground(new Color(230, 230, 230));
         cardPanel.add(separator);
 
-     // --- [2. 강아지 사진 넣기] ---
-     // 이미지 파일을 불러와서 크기를 조절하는 코드입니다.
-     // "src/images/profile.png" 부분을 "images/profile.jpg"로 수정!
-     ImageIcon originalIcon = new ImageIcon("images/profile.jpg"); // 여기가 핵심
-             
-     // 사진이 너무 클 수 있으니 120x120 크기로 강제 조절
-     Image img = originalIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-     JLabel profileImage = new JLabel(new ImageIcon(img));
-     profileImage.setBounds(20, 70, 120, 120);
-     // 테두리 (사진 액자 느낌)
-     profileImage.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
-     cardPanel.add(profileImage);
+        // --- [2. 강아지 사진 넣기] ---
+        // 이미지 파일을 불러와서 크기를 조절하는 코드입니다.
+        ImageIcon originalIcon = new ImageIcon("images/profile.jpg");
+
+        // 사진이 너무 클 수 있으니 120x120 크기로 강제 조절
+        Image img = originalIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        JLabel profileImage = new JLabel(new ImageIcon(img));
+        profileImage.setBounds(20, 70, 120, 120);
+        // 테두리 (사진 액자 느낌)
+        profileImage.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
+        cardPanel.add(profileImage);
 
         // 3. 텍스트 정보
         addProfileText(cardPanel, "이름: 후추", 160, 80);
@@ -61,27 +60,30 @@ public class MainPanel extends JPanel {
         int startY = 30;
         int gap = 80;
 
-    
-     // MainPanel.java 내부
 
-        	addMenuItem(menuBox, "예방접종 관리", "과거 및 예정된 접종 기록", startY, () -> {
-       
-        	    JOptionPane.showMessageDialog(this, "💉 예방접종 관리 화면으로 이동합니다!"); 
-            movePage(new VaccinePanel()); 
+        // MainPanel.java 내부
+
+        addMenuItem(menuBox, "예방접종 관리", "과거 및 예정된 접종 기록", startY, () -> {
+
+            JOptionPane.showMessageDialog(this, "💉 예방접종 관리 화면으로 이동합니다!");
+            movePage(new VaccinePanel());
         });
         addMenuItem(menuBox, "병원 진료·예약", "진료 일정 및 기록", startY + gap, () -> {
             JOptionPane.showMessageDialog(this, "🏥 병원 진료 화면으로 이동합니다!");
-       });
+            // TODO: 병원 진료기록 화면 연결
+        });
         addMenuItem(menuBox, "복용 기록", "복용 알림과 기록", startY + gap * 2, () -> {
             JOptionPane.showMessageDialog(this, "💊 복용 기록 화면으로 이동합니다!");
-       });
+            // TODO: 복용 기록 화면 연결
+        });
 
         addMenuItem(menuBox, "건강 상태 기록", "체중, 컨디션 기록", startY + gap * 3, () -> {
             JOptionPane.showMessageDialog(this, "⚖️ 건강 상태 화면으로 이동합니다!");
-       });
-        
+            // TODO: 건강기록 화면 연결
+        });
+
         addMenuItem(menuBox, "산책·놀이 기록", "금주의 산책량", startY + gap * 4, () -> {
-             // 이동 코드 넣을 곳
+            // TODO: 산책, 놀이기록 화면 연결
         });
     }
 
@@ -101,32 +103,33 @@ public class MainPanel extends JPanel {
 
     // 메뉴 추가 함수 (클릭 기능 추가됨)
     private void addMenuItem(JPanel panel, String title, String desc, int y, Runnable action) {
-        
+
         // 클릭 이벤트를 받을 투명 패널 (버튼 역할)
         JPanel clickArea = new JPanel();
         clickArea.setBounds(10, y - 10, 325, 70);
         clickArea.setLayout(null);
         clickArea.setBackground(Color.WHITE); // 투명하게 하려면 setOpaque(false)
         clickArea.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 올리면 손가락 모양
-        
+
         // 마우스 클릭 이벤트
         clickArea.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 action.run(); // 전달받은 이동 코드 실행
             }
-            
+
             // 마우스 올렸을 때 살짝 회색으로 변하는 효과 (선택 사항)
             @Override
             public void mouseEntered(MouseEvent e) {
                 clickArea.setBackground(new Color(245, 250, 255));
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 clickArea.setBackground(Color.WHITE);
             }
         });
-        
+
         panel.add(clickArea);
 
         // 아이콘
