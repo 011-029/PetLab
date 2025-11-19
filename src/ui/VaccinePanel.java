@@ -21,6 +21,22 @@ public class VaccinePanel extends JPanel {
     public VaccinePanel() {
         setLayout(null);
         setBackground(new Color(245, 245, 245));
+     // [VaccinePanel.java 안에 추가]
+
+     // 작성하기 버튼 (오른쪽 상단에 배치)
+     JButton writeBtn = new JButton("작성하기");
+     writeBtn.setBounds(260, 15, 100, 35); // 위치 조정
+     writeBtn.setBackground(new Color(255, 230, 230)); // 핑크색 포인트
+     writeBtn.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+     add(writeBtn);
+
+     // 버튼 누르면 입력 화면(VaccineInputPanel)으로 이동
+     writeBtn.addActionListener(e -> {
+         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+         if (frame != null) {
+             frame.switchPanel(new VaccineInputPanel());
+         }
+     });
 
      // 1. 뒤로가기 버튼
      JButton backBtn = new JButton("←");
