@@ -6,8 +6,6 @@ import java.awt.*;
 import core.User;
 import core.UserMgr;
 import mgr.Factory;
-import ui.MainFrame;
-import ui.SignupPanel;
 
 public class LoginPanel extends JPanel {
 
@@ -50,6 +48,9 @@ public class LoginPanel extends JPanel {
         loginBtn.setBorder(BorderFactory.createLineBorder(new Color(255, 180, 185)));
         add(loginBtn);
 
+        // pw 입력 후 바로 엔터 누르면 로그인
+        pwField.addActionListener(e -> loginBtn.doClick());
+
         JButton joinBtn = new JButton("회원가입");
         joinBtn.setBounds(70, 385, 260, 26);
         joinBtn.setFocusPainted(false);
@@ -82,6 +83,10 @@ public class LoginPanel extends JPanel {
                 frame.switchPanel(new MainPanel());
             } else {
                 JOptionPane.showMessageDialog(this, "ID 또는 비밀번호가 틀렸습니다.");
+                // 로그인 실패 시 idField, pwField 비우고 idField 에 포커스
+                idField.setText("");
+                pwField.setText("");
+                idField.requestFocus();
             }
         });
 

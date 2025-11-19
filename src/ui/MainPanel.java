@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainPanel extends JPanel {
+    final String FONT = "맑은 고딕";
 
     public MainPanel() {
         setLayout(null);
@@ -21,7 +22,7 @@ public class MainPanel extends JPanel {
         add(cardPanel);
 
         JLabel titleLabel = new JLabel("반려동물 정보");
-        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 18));
+        titleLabel.setFont(new Font(FONT, Font.BOLD, 18));
         titleLabel.setBounds(20, 20, 200, 30);
         cardPanel.add(titleLabel);
 
@@ -95,7 +96,7 @@ public class MainPanel extends JPanel {
 
     private void addProfileText(JPanel panel, String text, int x, int y) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+        label.setFont(new Font(FONT, Font.PLAIN, 14));
         label.setForeground(Color.DARK_GRAY);
         label.setBounds(x, y, 200, 20);
         panel.add(label);
@@ -140,13 +141,13 @@ public class MainPanel extends JPanel {
 
         // 제목
         JLabel titleLabel = new JLabel(title);
-        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        titleLabel.setFont(new Font(FONT, Font.BOLD, 15));
         titleLabel.setBounds(50, 15, 200, 20);
         clickArea.add(titleLabel);
 
         // 설명
         JLabel descLabel = new JLabel(desc);
-        descLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+        descLabel.setFont(new Font(FONT, Font.PLAIN, 12));
         descLabel.setForeground(Color.GRAY);
         descLabel.setBounds(50, 40, 250, 20);
         clickArea.add(descLabel);

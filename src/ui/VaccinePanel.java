@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import core.VaccineRecord;
 
 public class VaccinePanel extends JPanel {
-    
+    final String FONT = "맑은 고딕";
+
     // UI 컴포넌트 및 데이터 변수
     private JPanel listPanel;
     private JTextField searchField;
@@ -27,7 +28,7 @@ public class VaccinePanel extends JPanel {
      JButton writeBtn = new JButton("작성하기");
      writeBtn.setBounds(260, 15, 100, 35); // 위치 조정
      writeBtn.setBackground(new Color(255, 230, 230)); // 핑크색 포인트
-     writeBtn.setFont(new Font("맑은 고딕", Font.BOLD, 12));
+     writeBtn.setFont(new Font(FONT, Font.BOLD, 12));
      add(writeBtn);
 
      // 버튼 누르면 입력 화면(VaccineInputPanel)으로 이동
@@ -41,7 +42,7 @@ public class VaccinePanel extends JPanel {
      // 1. 뒤로가기 버튼
      JButton backBtn = new JButton("←");
      backBtn.setBounds(10, 15, 50, 40); // 왼쪽 구석에 위치
-     backBtn.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+     backBtn.setFont(new Font(FONT, Font.BOLD, 25));
      backBtn.setBorderPainted(false);    // 테두리 없애기
      backBtn.setContentAreaFilled(false); // 배경 투명하게
      backBtn.setFocusPainted(false);
@@ -61,7 +62,7 @@ public class VaccinePanel extends JPanel {
 
         // 1. 제목 라벨
         JLabel titleLabel = new JLabel("예방접종 관리");
-        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+        titleLabel.setFont(new Font(FONT, Font.BOLD, 20));
         titleLabel.setBounds(60, 20, 200, 30);
         add(titleLabel);
 
@@ -202,13 +203,13 @@ public class VaccinePanel extends JPanel {
             
             // 백신명
             JLabel nameLabel = new JLabel(record.getvaccine());
-            nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+            nameLabel.setFont(new Font(FONT, Font.BOLD, 14));
             nameLabel.setBounds(15, 15, 200, 20);
             card.add(nameLabel);
 
             // 날짜
             JLabel dateLabel = new JLabel("접종일: " + record.getDate());
-            dateLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+            dateLabel.setFont(new Font(FONT, Font.PLAIN, 12));
             dateLabel.setBounds(15, 40, 200, 20);
             card.add(dateLabel);
 

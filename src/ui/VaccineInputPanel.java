@@ -5,6 +5,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class VaccineInputPanel extends JPanel {
+    final String FONT = "맑은 고딕";
 
     public VaccineInputPanel() {
         setLayout(null);
@@ -13,7 +14,7 @@ public class VaccineInputPanel extends JPanel {
         // 1. 뒤로가기 버튼
         JButton backBtn = new JButton("←");
         backBtn.setBounds(10, 15, 50, 40);
-        backBtn.setFont(new Font("맑은 고딕", Font.BOLD, 25));
+        backBtn.setFont(new Font(FONT, Font.BOLD, 25));
         backBtn.setBorderPainted(false);
         backBtn.setContentAreaFilled(false);
         backBtn.setFocusPainted(false);
@@ -22,7 +23,7 @@ public class VaccineInputPanel extends JPanel {
 
         // 2. 제목
         JLabel titleLabel = new JLabel("예방접종 기록하기");
-        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+        titleLabel.setFont(new Font(FONT, Font.BOLD, 20));
         titleLabel.setBounds(60, 20, 200, 30);
         add(titleLabel);
 
@@ -50,7 +51,7 @@ public class VaccineInputPanel extends JPanel {
         JButton saveBtn = new JButton("기록 저장하기");
         saveBtn.setBounds(20, 430, 310, 50);
         saveBtn.setBackground(new Color(255, 230, 230)); // 핑크색
-        saveBtn.setFont(new Font("맑은 고딕", Font.BOLD, 16));
+        saveBtn.setFont(new Font(FONT, Font.BOLD, 16));
         formPanel.add(saveBtn);
 
         // 저장 버튼 클릭 이벤트
@@ -70,7 +71,7 @@ public class VaccineInputPanel extends JPanel {
     // 라벨 생성 도우미 함수
     private void addLabel(JPanel panel, String text, int x, int y) {
         JLabel label = new JLabel(text);
-        label.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+        label.setFont(new Font(FONT, Font.BOLD, 14));
         label.setBounds(x, y, 200, 20);
         panel.add(label);
     }
