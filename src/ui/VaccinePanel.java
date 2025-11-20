@@ -7,61 +7,74 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 // core 패키지의 파일 가져오기 (에러나면 패키지명 확인)
+import core.Pet;
+import core.User;
 import core.VaccineRecord;
 
 public class VaccinePanel extends JPanel {
-    
+    private MainFrame mainFrame;
+    final String FONT = "맑은 고딕";
+    User user;  // 로그인한 유저
+    Pet pet;    // 로그인한 유저의 펫
+
     // UI 컴포넌트 및 데이터 변수
     private JPanel listPanel;
     private JTextField searchField;
     private ArrayList<VaccineRecord> allList = new ArrayList<>(); // 전체 데이터 저장소
-   
-    
 
-    public VaccinePanel() {
+    public VaccinePanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        // 로그인한 user, pet 받아오기
+        this.user = mainFrame.getLoggedInUser();
+        this.pet = mainFrame.getLoggedInUserPet();
+
+        // TODO: 아래 테스트용 코드 추후 삭제 (2줄)
+        System.out.println("백신패널 유저: " + user.getId());
+        System.out.println("백신패널 펫: " + pet.getName());
+
         setLayout(null);
         setBackground(new Color(245, 245, 245));
-     // [VaccinePanel.java 안에 추가]
+        // [VaccinePanel.java 안에 추가]
 
-     // 작성하기 버튼 (오른쪽 상단에 배치)
-     JButton writeBtn = new JButton("작성하기");
-     writeBtn.setBounds(260, 15, 100, 35); // 위치 조정
-     writeBtn.setBackground(new Color(255, 230, 230)); // 핑크색 포인트
-     writeBtn.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-     add(writeBtn);
+        // 작성하기 버튼 (오른쪽 상단에 배치)
+        JButton writeBtn = new JButton("작성하기");
+        writeBtn.setBounds(260, 15, 100, 35); // 위치 조정
+        writeBtn.setBackground(new Color(255, 230, 230)); // 핑크색 포인트
+        writeBtn.setFont(new Font(FONT, Font.BOLD, 12));
+        add(writeBtn);
 
-     // 버튼 누르면 입력 화면(VaccineInputPanel)으로 이동
-     writeBtn.addActionListener(e -> {
-         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-         if (frame != null) {
-             frame.switchPanel(new VaccineInputPanel());
-         }
-     });
+        // 버튼 누르면 입력 화면(VaccineInputPanel)으로 이동
+        writeBtn.addActionListener(e -> {
+            MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+            if (frame != null) {
+                frame.switchPanel(new VaccineInputPanel(mainFrame));
+            }
+        });
 
-     // 1. 뒤로가기 버튼
-     JButton backBtn = new JButton("←");
-     backBtn.setBounds(10, 15, 50, 40); // 왼쪽 구석에 위치
-     backBtn.setFont(new Font("맑은 고딕", Font.BOLD, 25));
-     backBtn.setBorderPainted(false);    // 테두리 없애기
-     backBtn.setContentAreaFilled(false); // 배경 투명하게
-     backBtn.setFocusPainted(false);
-     backBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 올리면 손가락 모양
-     add(backBtn);
+        // 1. 뒤로가기 버튼
+        JButton backBtn = new JButton("←");
+        backBtn.setBounds(10, 15, 50, 40); // 왼쪽 구석에 위치
+        backBtn.setFont(new Font(FONT, Font.BOLD, 25));
+        backBtn.setBorderPainted(false);    // 테두리 없애기
+        backBtn.setContentAreaFilled(false); // 배경 투명하게
+        backBtn.setFocusPainted(false);
+        backBtn.setCursor(new Cursor(Cursor.HAND_CURSOR)); // 마우스 올리면 손가락 모양
+        add(backBtn);
 
-     // 2. 버튼 클릭 기능 (메인으로 이동)
-     backBtn.addActionListener(e -> {
-         // 현재 창이 속한 메인 프레임을 찾아서
-         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-         // 메인 패널로 화면을 갈아끼움
-         if (frame != null) {
-             frame.switchPanel(new MainPanel());
-         }
-     });
+        // 2. 버튼 클릭 기능 (메인으로 이동)
+        backBtn.addActionListener(e -> {
+            // 현재 창이 속한 메인 프레임을 찾아서
+            MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+            // 메인 패널로 화면을 갈아끼움
+            if (frame != null) {
+                frame.switchPanel(new MainPanel(frame));
+            }
+        });
 
 
         // 1. 제목 라벨
         JLabel titleLabel = new JLabel("예방접종 관리");
-        titleLabel.setFont(new Font("맑은 고딕", Font.BOLD, 20));
+        titleLabel.setFont(new Font(FONT, Font.BOLD, 20));
         titleLabel.setBounds(60, 20, 200, 30);
         add(titleLabel);
 
@@ -84,7 +97,7 @@ public class VaccinePanel extends JPanel {
 
         JButton futureBtn = new JButton("예정");
         futureBtn.setBounds(200, 110, 170, 40);
-        futureBtn.setBackground(new Color(255, 230, 230)); 
+        futureBtn.setBackground(new Color(255, 230, 230));
         add(futureBtn);
 
         // 4. 리스트가 들어갈 스크롤 영역
@@ -98,7 +111,7 @@ public class VaccinePanel extends JPanel {
         add(scrollPane);
 
         // 5. 초기 데이터 로드 (2025년 기준 데이터)
-        initData();      
+        initData();
         updateList(allList); // 처음엔 전체 리스트 보여주기
 
         // --- [버튼 이벤트 연결] ---
@@ -127,14 +140,15 @@ public class VaccinePanel extends JPanel {
     // 1. 테스트용 가짜 데이터 생성 (2025년 기준)
     private void initData() {
         allList.clear();
-        
+
+        // TODO: 실제 데이터 연결 필요
         // [과거 데이터] - 2025년 11월 18일 이전 날짜들
         allList.add(new VaccineRecord("종합백신(DHPPL) 5차", "2025-01-10", "행복동물병원"));
         allList.add(new VaccineRecord("코로나 장염", "2025-03-15", "튼튼병원"));
         allList.add(new VaccineRecord("켄넬코프", "2025-05-20", "사랑동물병원"));
         allList.add(new VaccineRecord("광견병", "2025-06-01", "구청지정병원"));
         allList.add(new VaccineRecord("인플루엔자", "2025-10-05", "행복동물병원"));
-        
+
         // [예정 데이터] - 2025년 11월 18일 이후 (12월, 2026년 등)
         allList.add(new VaccineRecord("심장사상충(예정)", "2025-12-01", "자가접종"));
         allList.add(new VaccineRecord("광견병 정기접종(예정)", "2026-06-01", "구청지정병원"));
@@ -151,7 +165,7 @@ public class VaccinePanel extends JPanel {
         ArrayList<VaccineRecord> result = new ArrayList<>();
         for (VaccineRecord r : allList) {
             // VaccineRecord의 matches 메서드를 이용해 검색
-            if (r.matches(keyword)) { 
+            if (r.matches(keyword)) {
                 result.add(r);
             }
         }
@@ -166,7 +180,7 @@ public class VaccinePanel extends JPanel {
         for (VaccineRecord r : allList) {
             // 날짜 문자열 비교 (예: "2025-01-01" vs "2025-11-18")
             int compare = r.getDate().compareTo(today);
-            
+
             if (isPast) {
                 // 과거: 기록된 날짜가 오늘보다 이전일 때 (compare < 0)
                 if (compare < 0) result.add(r);
@@ -199,16 +213,16 @@ public class VaccinePanel extends JPanel {
             card.setMaximumSize(new Dimension(330, 100));
             card.setBackground(Color.WHITE);
             card.setBorder(new LineBorder(new Color(230, 230, 230), 1));
-            
+
             // 백신명
             JLabel nameLabel = new JLabel(record.getvaccine());
-            nameLabel.setFont(new Font("맑은 고딕", Font.BOLD, 14));
+            nameLabel.setFont(new Font(FONT, Font.BOLD, 14));
             nameLabel.setBounds(15, 15, 200, 20);
             card.add(nameLabel);
 
             // 날짜
             JLabel dateLabel = new JLabel("접종일: " + record.getDate());
-            dateLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+            dateLabel.setFont(new Font(FONT, Font.PLAIN, 12));
             dateLabel.setBounds(15, 40, 200, 20);
             card.add(dateLabel);
 
@@ -221,7 +235,7 @@ public class VaccinePanel extends JPanel {
             listPanel.add(card);
             listPanel.add(Box.createRigidArea(new Dimension(0, 10))); // 간격
         }
-        
+
         // 화면 새로고침
         listPanel.revalidate();
         listPanel.repaint();

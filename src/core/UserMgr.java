@@ -37,12 +37,12 @@ public class UserMgr extends DataEngineImpl<User> {
 
         String[] arr = {id, pw, name};
         addNewRow(arr);
-        saveAll(USER_INFO_FILE);
+        saveToFile(USER_INFO_FILE);
 
         return true;
     }
 
-    public void saveAll(String filename) {
+    public void saveToFile(String filename) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(filename))) {
             for (User u: mList) {
                 pw.printf("%s %s %s\n", u.getId(), u.getPassword(), u.getName());

@@ -1,7 +1,5 @@
 package core;
 
-import javax.swing.SwingUtilities;
-
 import mgr.Factory;
 import util.ReadUtil;
 

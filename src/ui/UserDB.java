@@ -2,6 +2,8 @@ package ui;
 
 import java.util.ArrayList;
 
+// TODO: 이제 UserDB는 필요 없음 (UserMgr에서 모두 해결), 추후 삭제
+
 public class UserDB {
     // 가입된 아이디들을 저장하는 리스트 (임시 DB 역할)
     private static ArrayList<String> userList = new ArrayList<>();

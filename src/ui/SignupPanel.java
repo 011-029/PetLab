@@ -3,6 +3,9 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
+import core.User;
+import core.UserMgr;
+import mgr.Factory;
 import ui.MainFrame;
 import ui.LoginPanel;
 
@@ -10,6 +13,15 @@ import ui.LoginPanel;
 public class SignupPanel extends JPanel {
 
     public SignupPanel() {
+
+        UserMgr.getInstance().readAll("users.txt", new Factory<User>() {
+            public User create() {
+                return new User();
+            }
+        });
+
+        UserMgr userMgr = UserMgr.getInstance();
+
         setLayout(null);
         setBackground(Color.WHITE);
 
@@ -39,8 +51,16 @@ public class SignupPanel extends JPanel {
         pwField.setBounds(70, 280, 260, 36);
         add(pwField);
 
+        JLabel nameLabel = new JLabel("이름");
+        nameLabel.setBounds(70, 330, 200, 20);
+        add(nameLabel);
+
+        JTextField nameField = new JTextField();
+        nameField.setBounds(70, 355, 260, 36);
+        add(nameField);
+
         JButton joinBtn = new JButton("회원가입");
-        joinBtn.setBounds(70, 330, 260, 44);
+        joinBtn.setBounds(70, 405, 260, 44);
         joinBtn.setBackground(new Color(255, 205, 210));
         add(joinBtn);
 
@@ -62,9 +82,9 @@ public class SignupPanel extends JPanel {
                 return; // 함수 종료
             }
 
-            // 2. 중복인지 확인 (UserDB한테 물어봄)
-            if (UserDB.isIdExists(inputId)) {
-                // 중복일 때 (보여주신 사진처럼 뜸)
+            // 2. 중복인지 확인
+            if (userMgr.isDuplicatedId(inputId)) {
+                // 중복일 때
                 JOptionPane.showMessageDialog(this, "중복된 아이디입니다.", "아이디 중복 팝업창", JOptionPane.ERROR_MESSAGE);
                 idField.setText(""); // 입력창 비우기
                 idField.requestFocus(); // 다시 입력하라고 커서 두기
@@ -74,19 +94,31 @@ public class SignupPanel extends JPanel {
             }
         });
 
-        //회원가입 버튼 누를 때도 DB에 저장되게 하기
         joinBtn.addActionListener(e -> {
             String id = idField.getText().trim();
-            
+            String pw = pwField.getText().trim();
+            String name = nameField.getText().trim();
+
             if(id.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "아이디를 입력하세요.");
                 return;
             }
+            if (pw.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "비밀번호를 입력하세요.");
+                return;
+            }
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "이름을 입력하세요.");
+                return;
+            }
             
-            // 가입 성공 시 DB에 저장 (그래야 다음번에 중복이라고 뜸)
-            UserDB.addUser(id); 
-            JOptionPane.showMessageDialog(this, "회원가입 성공! 로그인 해주세요.");
-            
+            boolean result = userMgr.signUp(id, pw, name);
+            if (result) {
+                JOptionPane.showMessageDialog(this, "회원가입 성공! 로그인 해주세요.");
+            } else {
+                JOptionPane.showMessageDialog(this, "회원가입 실패");
+            }
+
             MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
             frame.switchPanel(new LoginPanel());
         });

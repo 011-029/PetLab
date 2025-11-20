@@ -3,12 +3,21 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-import ui.MainFrame;
-import ui.SignupPanel;
+import core.User;
+import core.UserMgr;
+import mgr.Factory;
 
 public class LoginPanel extends JPanel {
 
     public LoginPanel() {
+        UserMgr.getInstance().readAll("users.txt", new Factory<User>() {
+            public User create() {
+                return new User();
+            }
+        });
+
+        UserMgr userMgr = UserMgr.getInstance();
+
         setLayout(null);
         setBackground(Color.WHITE);
 
@@ -39,6 +48,9 @@ public class LoginPanel extends JPanel {
         loginBtn.setBorder(BorderFactory.createLineBorder(new Color(255, 180, 185)));
         add(loginBtn);
 
+        // pw 입력 후 바로 엔터 누르면 로그인
+        pwField.addActionListener(e -> loginBtn.doClick());
+
         JButton joinBtn = new JButton("회원가입");
         joinBtn.setBounds(70, 385, 260, 26);
         joinBtn.setFocusPainted(false);
@@ -52,9 +64,33 @@ public class LoginPanel extends JPanel {
         });
 
         loginBtn.addActionListener(e -> {
-            // (여기 나중에 진짜 로그인 검증 넣어도 됨)
-            MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-            frame.switchPanel(new MainPanel());
+            String id = idField.getText().trim();
+            String pw = pwField.getText().trim();
+
+            if(id.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "아이디를 입력하세요.");
+                return;
+            }
+            if (pw.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "비밀번호를 입력하세요.");
+                return;
+            }
+
+            // 로그인 검증
+            User user = userMgr.login(id, pw);
+            if (user != null) {
+                MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+                frame.setLoggedInUser(user);
+                // TODO: 아래 테스트용 코드 추후 삭제 (1줄)
+                System.out.println("로그인 ID: " + user.getId());
+                frame.switchPanel(new MainPanel(frame));
+            } else {
+                JOptionPane.showMessageDialog(this, "ID 또는 비밀번호가 틀렸습니다.");
+                // 로그인 실패 시 idField, pwField 비우고 idField 에 포커스
+                idField.setText("");
+                pwField.setText("");
+                idField.requestFocus();
+            }
         });
 
     }
