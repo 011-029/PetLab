@@ -1,13 +1,28 @@
 package ui;
 
+import core.Pet;
+import core.User;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class VaccineInputPanel extends JPanel {
+    private MainFrame mainFrame;
     final String FONT = "맑은 고딕";
+    User user;  // 로그인한 유저
+    Pet pet;    // 로그인한 유저의 펫
 
-    public VaccineInputPanel() {
+    public VaccineInputPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        // 로그인한 user, pet 받아오기
+        this.user = mainFrame.getLoggedInUser();
+        this.pet = mainFrame.getLoggedInUserPet();
+
+        // TODO: 아래 테스트용 코드 추후 삭제 (2줄)
+        System.out.println("백신인풋패널 유저: " + user.getId());
+        System.out.println("백신인풋패널 펫: "  + pet.getName());
+
         setLayout(null);
         setBackground(new Color(245, 245, 245));
 
@@ -65,7 +80,7 @@ public class VaccineInputPanel extends JPanel {
     // 화면 이동 함수
     private void goBack() {
         MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-        if (frame != null) frame.switchPanel(new VaccinePanel());
+        if (frame != null) frame.switchPanel(new VaccinePanel(frame));
     }
 
     // 라벨 생성 도우미 함수

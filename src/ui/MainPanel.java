@@ -1,5 +1,8 @@
 package ui;
 
+import core.Pet;
+import core.User;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -7,9 +10,24 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MainPanel extends JPanel {
+    private MainFrame mainFrame;
     final String FONT = "맑은 고딕";
+    User user;  // 로그인한 유저
+    Pet pet;    // 로그인한 유저의 펫
 
-    public MainPanel() {
+    public MainPanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        // 로그인한 user, pet 받아오기
+        this.user = mainFrame.getLoggedInUser();
+        this.pet = mainFrame.getLoggedInUserPet();
+
+        // TODO: 아래 테스트용 코드 추후 삭제 (2줄)
+        System.out.println("메인패널 유저: " + user.getId());
+        System.out.println("메인패널 펫: "  + pet.getName());
+
+
+        // TODO: 기능별로 메서드 분리 필요할듯... 배경/프로필/메뉴 등
+
         setLayout(null);
         setBackground(new Color(245, 245, 245));
 
@@ -33,6 +51,7 @@ public class MainPanel extends JPanel {
 
         // --- [2. 강아지 사진 넣기] ---
         // 이미지 파일을 불러와서 크기를 조절하는 코드입니다.
+        // TODO: 펫별로 사진 경로 적용
         ImageIcon originalIcon = new ImageIcon("images/profile.jpg");
 
         // 사진이 너무 클 수 있으니 120x120 크기로 강제 조절
@@ -44,11 +63,11 @@ public class MainPanel extends JPanel {
         cardPanel.add(profileImage);
 
         // 3. 텍스트 정보
-        addProfileText(cardPanel, "이름: 후추", 160, 80);
-        addProfileText(cardPanel, "종: 갈색푸들", 160, 105);
-        addProfileText(cardPanel, "성별: 암컷(중성화)", 160, 130);
-        addProfileText(cardPanel, "생일: 2020.01.10", 160, 155);
-        addProfileText(cardPanel, "몸무게: 4.3kg", 160, 180);
+        addProfileText(cardPanel, "이름: " + pet.getName(), 160, 80);
+        addProfileText(cardPanel, "종: " + pet.getSpecies(), 160, 105);
+        addProfileText(cardPanel, "성별: " + pet.getGender(), 160, 130);
+        addProfileText(cardPanel, "생일: " + pet.getBirthDate(), 160, 155);
+        addProfileText(cardPanel, "몸무게: " + pet.getWeight() + "kg", 160, 180);
 
         // --- [4. 메뉴 리스트 박스] ---
         JPanel menuBox = new JPanel();
@@ -65,9 +84,8 @@ public class MainPanel extends JPanel {
         // MainPanel.java 내부
 
         addMenuItem(menuBox, "예방접종 관리", "과거 및 예정된 접종 기록", startY, () -> {
-
-            JOptionPane.showMessageDialog(this, "💉 예방접종 관리 화면으로 이동합니다!");
-            movePage(new VaccinePanel());
+//            JOptionPane.showMessageDialog(this, "💉 예방접종 관리 화면으로 이동합니다!");
+            movePage(new VaccinePanel(mainFrame));
         });
         addMenuItem(menuBox, "병원 진료·예약", "진료 일정 및 기록", startY + gap, () -> {
             JOptionPane.showMessageDialog(this, "🏥 병원 진료 화면으로 이동합니다!");

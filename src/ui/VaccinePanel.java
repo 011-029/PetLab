@@ -7,19 +7,31 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 // core 패키지의 파일 가져오기 (에러나면 패키지명 확인)
+import core.Pet;
+import core.User;
 import core.VaccineRecord;
 
 public class VaccinePanel extends JPanel {
+    private MainFrame mainFrame;
     final String FONT = "맑은 고딕";
+    User user;  // 로그인한 유저
+    Pet pet;    // 로그인한 유저의 펫
 
     // UI 컴포넌트 및 데이터 변수
     private JPanel listPanel;
     private JTextField searchField;
     private ArrayList<VaccineRecord> allList = new ArrayList<>(); // 전체 데이터 저장소
    
-    
+    public VaccinePanel(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        // 로그인한 user, pet 받아오기
+        this.user = mainFrame.getLoggedInUser();
+        this.pet = mainFrame.getLoggedInUserPet();
 
-    public VaccinePanel() {
+        // TODO: 아래 테스트용 코드 추후 삭제 (2줄)
+        System.out.println("백신패널 유저: " + user.getId());
+        System.out.println("백신패널 펫: "  + pet.getName());
+
         setLayout(null);
         setBackground(new Color(245, 245, 245));
      // [VaccinePanel.java 안에 추가]
@@ -35,7 +47,7 @@ public class VaccinePanel extends JPanel {
      writeBtn.addActionListener(e -> {
          MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
          if (frame != null) {
-             frame.switchPanel(new VaccineInputPanel());
+             frame.switchPanel(new VaccineInputPanel(mainFrame));
          }
      });
 
@@ -55,7 +67,7 @@ public class VaccinePanel extends JPanel {
          MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
          // 메인 패널로 화면을 갈아끼움
          if (frame != null) {
-             frame.switchPanel(new MainPanel());
+             frame.switchPanel(new MainPanel(frame));
          }
      });
 
@@ -128,7 +140,8 @@ public class VaccinePanel extends JPanel {
     // 1. 테스트용 가짜 데이터 생성 (2025년 기준)
     private void initData() {
         allList.clear();
-        
+
+        // TODO: 실제 데이터 연결 필요
         // [과거 데이터] - 2025년 11월 18일 이전 날짜들
         allList.add(new VaccineRecord("종합백신(DHPPL) 5차", "2025-01-10", "행복동물병원"));
         allList.add(new VaccineRecord("코로나 장염", "2025-03-15", "튼튼병원"));

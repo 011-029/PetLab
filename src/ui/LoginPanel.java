@@ -77,10 +77,13 @@ public class LoginPanel extends JPanel {
             }
 
             // 로그인 검증
-            User u = userMgr.login(id, pw);
-            if (u != null) {
+            User user = userMgr.login(id, pw);
+            if (user != null) {
                 MainFrame frame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-                frame.switchPanel(new MainPanel());
+                frame.setLoggedInUser(user);
+                // TODO: 아래 테스트용 코드 추후 삭제 (1줄)
+                System.out.println("로그인 ID: " + user.getId());
+                frame.switchPanel(new MainPanel(frame));
             } else {
                 JOptionPane.showMessageDialog(this, "ID 또는 비밀번호가 틀렸습니다.");
                 // 로그인 실패 시 idField, pwField 비우고 idField 에 포커스

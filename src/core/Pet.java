@@ -16,6 +16,7 @@ public class Pet implements Manageable, UIData {
     private String gender;
     private LocalDate birthDate;
     private double weight;
+    // TODO: 프로필 사진 경로 어떻게 저장할지 생각..
 
     private final ArrayList<HealthRecord> healthRecords = new ArrayList<>();
     private final ArrayList<MedicalRecord> medicalRecords = new ArrayList<>();
@@ -72,6 +73,10 @@ public class Pet implements Manageable, UIData {
     // getter
     public String getOwnerId() { return ownerId; }
     public String getName() { return name; }
+    public String getSpecies() { return species; }
+    public String getGender() { return gender; }
+    public LocalDate getBirthDate() { return birthDate; }
+    public double getWeight() { return weight; }
     public ArrayList<MedicalRecord> getMedicalRecords(){
         return medicalRecords;
     }
