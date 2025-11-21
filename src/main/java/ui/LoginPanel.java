@@ -5,17 +5,10 @@ import java.awt.*;
 
 import core.User;
 import core.UserMgr;
-import mgr.Factory;
 
 public class LoginPanel extends JPanel {
 
     public LoginPanel() {
-        UserMgr.getInstance().readAll("data/users.txt", new Factory<User>() {
-            public User create() {
-                return new User();
-            }
-        });
-
         UserMgr userMgr = UserMgr.getInstance();
 
         setLayout(null);

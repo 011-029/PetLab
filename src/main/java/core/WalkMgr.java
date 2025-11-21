@@ -1,5 +1,6 @@
 package core;
 
+import mgr.Factory;
 import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
@@ -26,5 +27,14 @@ public class WalkMgr extends PetRecordMgr<WalkRecord> {
     @Override
     public void addNewRow(String[] uiTexts) {
 
+    }
+
+    public void loadFromFile() {
+        readAll("data/WalkRecords.txt", new Factory<>() {
+            @Override
+            public WalkRecord create() {
+                return new WalkRecord();
+            }
+        });
     }
 }

@@ -3,7 +3,6 @@ package ui;
 import core.Pet;
 import core.PetMgr;
 import core.User;
-import mgr.Factory;
 
 import javax.swing.*;
 
@@ -26,18 +25,7 @@ public class MainFrame extends JFrame {
         return loggedInUserPet;
     }
 
-    public void loadPetData() {
-        PetMgr petMgr = PetMgr.getInstance();
-        PetMgr.getInstance().readAll("data/pets.txt", new Factory<Pet>() {
-            public Pet create() {
-                return new Pet();
-            }
-        });
-    }
-
     public MainFrame() {
-        loadPetData();
-
         setTitle("Pet Manager");
         setSize(420, 750);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

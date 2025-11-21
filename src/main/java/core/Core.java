@@ -1,6 +1,6 @@
 package core;
 
-import mgr.Factory;
+import util.DataLoader;
 import util.ReadUtil;
 
 import java.time.LocalDate;
@@ -36,7 +36,8 @@ public class Core {
     Scanner scan = new Scanner(System.in);
 
     public void run() {
-        loadAllData();
+        // 데이터 불러오기
+        DataLoader.loadAllData();
 
         // User 로그인
         loginLoop:
@@ -193,59 +194,6 @@ public class Core {
             for (Pet p : pets)
                 p.print();
         }
-    }
-
-    // 초기 데이터 불러오기
-    private void loadAllData() {
-        UserMgr.getInstance().readAll("data/users.txt", new Factory<User> () {
-            public User create() {
-                return new User();
-            }
-        });
-        PetMgr.getInstance().readAll("data/pets.txt", new Factory<Pet> () {
-            public Pet create() {
-                return new Pet();
-            }
-        });
-        MedicalMgr.getInstance().readAll("data/medicalRecords.txt", new Factory<>() {
-            @Override
-            public MedicalRecord create() {
-                return new MedicalRecord();
-            }
-        });
-        WalkMgr.getInstance().readAll("data/WalkRecords.txt", new Factory<>() {
-            @Override
-            public WalkRecord create() {
-                return new WalkRecord();
-            }
-        });
-        PlayMgr.getInstance().readAll("data/playRecord.txt", new Factory<PlayRecord>() {
-            public PlayRecord create() {
-                return new PlayRecord();
-            }
-        });
-        MedicineRecordMgr.getInstance().readAll("data/medicineRecord.txt", new Factory<MedicineRecord>() {
-            public MedicineRecord create() {
-                return new MedicineRecord();
-            }
-        });
-        MedicineRoutineMgr.getInstance().readAll("data/medicineRoutine.txt", new Factory<MedicineRoutine>() {
-            public MedicineRoutine create() {
-                return new MedicineRoutine();
-            }
-        });
-        // TODO: 예방접종 기록 데이터 생성 후 아래 주석 해제
-//        VaccineMgr.getInstance().readAll(".txt", new Factory<VaccineRecord>() {
-//            public VaccineRecord create() {
-//                return new VaccineRecord();
-//            }
-//        });
-        // TODO: 건강 기록 데이터 생성 후 아래 주석 해제
-//        HealthMgr.getInstance().readAll(".txt", new Factory<HealthRecord>() {
-//            public HealthRecord create() {
-//                return new HealthRecord();
-//            }
-//        });
     }
 
     // 건강 기록 기능

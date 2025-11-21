@@ -78,6 +78,12 @@ public class VaccineMgr extends PetRecordMgr<VaccineRecord> {
         }
     }
 
-
-
+    public void loadFromFile() {
+        // TODO: 예방접종 기록 데이터 생성 후 아래 주석 해제, 파일 경로 추가
+//        readAll(".txt", new Factory<VaccineRecord>() {
+//            public VaccineRecord create() {
+//                return new VaccineRecord();
+//            }
+//        });
+    }
 }

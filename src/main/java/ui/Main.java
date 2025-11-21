@@ -1,6 +1,7 @@
 package ui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import util.DataLoader;
 
 import javax.swing.*;
 
@@ -20,6 +21,7 @@ public class Main {
         }
 
         SwingUtilities.invokeLater(() -> {
+            DataLoader.loadAllData(); // 데이터 불러오기
             new MainFrame();   // GUI 실행
         });
     }

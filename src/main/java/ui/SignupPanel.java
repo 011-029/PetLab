@@ -3,23 +3,11 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-import core.User;
 import core.UserMgr;
-import mgr.Factory;
-import ui.MainFrame;
-import ui.LoginPanel;
-
 
 public class SignupPanel extends JPanel {
 
     public SignupPanel() {
-
-        UserMgr.getInstance().readAll("data/users.txt", new Factory<User>() {
-            public User create() {
-                return new User();
-            }
-        });
-
         UserMgr userMgr = UserMgr.getInstance();
 
         setLayout(null);

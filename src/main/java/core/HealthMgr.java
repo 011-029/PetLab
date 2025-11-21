@@ -26,4 +26,13 @@ public class HealthMgr extends PetRecordMgr<HealthRecord> {
         mList.add(r);
 
     }
+
+    public void loadFromFile() {
+        // TODO: 건강 기록 데이터 생성 후 아래 주석 해제, 파일 경로 추가
+//        readAll(".txt", new Factory<HealthRecord>() {
+//            public HealthRecord create() {
+//                return new HealthRecord();
+//            }
+//        });
+    }
 }

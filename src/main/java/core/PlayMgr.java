@@ -1,6 +1,6 @@
 package core;
 
-import facade.DataEngineImpl;
+import mgr.Factory;
 import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
@@ -27,5 +27,13 @@ public class PlayMgr extends PetRecordMgr<PlayRecord> {
     @Override
     public void addNewRow(String[] uiTexts) {
 
+    }
+
+    public void loadFromFile() {
+        readAll("data/playRecord.txt", new Factory<PlayRecord>() {
+            public PlayRecord create() {
+                return new PlayRecord();
+            }
+        });
     }
 }

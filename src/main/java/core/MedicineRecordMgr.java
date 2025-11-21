@@ -1,5 +1,6 @@
 package core;
 
+import mgr.Factory;
 import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
@@ -46,5 +47,13 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     @Override
     public void addNewRow(String[] uiTexts) {
 
+    }
+
+    public void loadFromFile() {
+        readAll("data/medicineRecord.txt", new Factory<MedicineRecord>() {
+            public MedicineRecord create() {
+                return new MedicineRecord();
+            }
+        });
     }
 }

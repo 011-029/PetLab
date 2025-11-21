@@ -1,6 +1,7 @@
 package core;
 
 import facade.DataEngineImpl;
+import mgr.Factory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 
 public class PetMgr extends DataEngineImpl<Pet> {
     private static PetMgr mgr = null;
-    private static final String PET_INFO_FILE = "data/pets.txt";
+    private static final String PET_FILE_PATH = "data/pets.txt";
 
     public static PetMgr getInstance() {
         if (mgr == null)
@@ -36,7 +37,7 @@ public class PetMgr extends DataEngineImpl<Pet> {
 
     public void registerPet(String[] uiTexts) {
         addNewRow(uiTexts);
-        saveToFile(PET_INFO_FILE);
+        saveToFile(PET_FILE_PATH);
     }
 
     public Pet getPetByOwner(String ownerId) {
@@ -66,5 +67,13 @@ public class PetMgr extends DataEngineImpl<Pet> {
         } catch (IOException e) {
             System.out.println("파일 저장 중 오류 발생");
         }
+    }
+
+    public void loadFromFile() {
+        readAll("data/pets.txt", new Factory<Pet>() {
+            public Pet create() {
+                return new Pet();
+            }
+        });
     }
 }

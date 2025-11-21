@@ -1,6 +1,7 @@
 package core;
 
 import facade.DataEngineImpl;
+import mgr.Factory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.io.PrintWriter;
 
 public class UserMgr extends DataEngineImpl<User> {
     private static UserMgr mgr = null;
-    private static final String USER_INFO_FILE = "data/users.txt";
+    private static final String USER_FILE_PATH = "data/users.txt";
 
     public static UserMgr getInstance() {
         if (mgr == null)
@@ -37,7 +38,7 @@ public class UserMgr extends DataEngineImpl<User> {
 
         String[] arr = {id, pw, name};
         addNewRow(arr);
-        saveToFile(USER_INFO_FILE);
+        saveToFile(USER_FILE_PATH);
 
         return true;
     }
@@ -58,5 +59,13 @@ public class UserMgr extends DataEngineImpl<User> {
                 return u;
         }
         return null;
+    }
+
+    public void loadFromFile() {
+        readAll("data/users.txt", new Factory<User>() {
+            public User create() {
+                return new User();
+            }
+        });
     }
 }
