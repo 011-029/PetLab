@@ -10,7 +10,7 @@ import mgr.Factory;
 public class LoginPanel extends JPanel {
 
     public LoginPanel() {
-        UserMgr.getInstance().readAll("users.txt", new Factory<User>() {
+        UserMgr.getInstance().readAll("data/users.txt", new Factory<User>() {
             public User create() {
                 return new User();
             }

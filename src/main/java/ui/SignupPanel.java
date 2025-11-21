@@ -14,7 +14,7 @@ public class SignupPanel extends JPanel {
 
     public SignupPanel() {
 
-        UserMgr.getInstance().readAll("users.txt", new Factory<User>() {
+        UserMgr.getInstance().readAll("data/users.txt", new Factory<User>() {
             public User create() {
                 return new User();
             }
