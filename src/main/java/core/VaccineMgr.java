@@ -52,5 +52,6 @@ public class VaccineMgr extends PetRecordMgr<VaccineRecord> {
 //                return new VaccineRecord();
 //            }
 //        });
+//        initNextIndexId();
     }
 }

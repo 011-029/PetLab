@@ -1,5 +1,8 @@
 package core;
 
+import mgr.Manageable;
+import mgr.PetOwned;
+import mgr.PetRecordMgr;
 import util.DataLoader;
 import util.ReadUtil;
 
@@ -22,8 +25,8 @@ public class Core {
 
     static UserMgr userMgr = UserMgr.getInstance();
     static PetMgr petMgr = PetMgr.getInstance();
-    User loggedInUser;
-    Pet loggedInUserPet;
+    static User loggedInUser;
+    static Pet loggedInUserPet;
 
     static HealthMgr healthMgr = HealthMgr.getInstance();
     static MedicalMgr medicalMgr = MedicalMgr.getInstance();
@@ -33,7 +36,7 @@ public class Core {
     static VaccineMgr vaccineMgr = VaccineMgr.getInstance();
     static WalkMgr walkMgr = WalkMgr.getInstance();
 
-    Scanner scan = new Scanner(System.in);
+    static Scanner scan = new Scanner(System.in);
 
     public void run() {
         // 데이터 불러오기
@@ -70,24 +73,10 @@ public class Core {
                 case 11 -> printPetsByOwner();
                 case 12 -> updatePetImage();
                 case 13 -> search();
-//                case 100 -> {
-//                    playMenu();
-//
-//                    System.out.print(">> 삭제할 인덱스 번호: ");
-//                    int indexId = scan.nextInt();
-//
-//                    PlayRecord r = playMgr.findByIndexId(indexId);
-//
-//                    if (r == null || !r.getOwnerId().equals(loggedInUser.getId())) {
-//                        System.out.println("유효한 인덱스 번호가 아닙니다");
-//                        continue;
-//                    }
-//                    boolean result = playMgr.deleteByIndexId(indexId);
-//                    if (result)
-//                        System.out.println(indexId + "번 데이터가 삭제되었습니다");
-//                    else System.out.println("유효한 인덱스 번호가 아닙니다");
-//                    playMgr.printByOwner(loggedInUser.getId());
-//                }
+                case 100 -> {
+                    medicalMgr.printByOwner(loggedInUser.getId());
+                    removeRecord(medicalMgr);
+                }
                 case 0 -> {
                     return;
                 }
@@ -217,6 +206,26 @@ public class Core {
         }
     }
 
+    // 기록 삭제 기능
+    static private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
+        System.out.print(">> 삭제할 인덱스 번호: ");
+        int indexId = scan.nextInt();
+
+        T m = mgr.findByIndexId(indexId);
+
+        if (m == null || !m.getOwnerId().equals(loggedInUser.getId())) {
+            System.out.println("유효한 인덱스 번호가 아닙니다");
+            return;
+        }
+        boolean result = mgr.removeByIndexId(indexId);
+        if (result)
+            System.out.println(indexId + "번 데이터가 삭제되었습니다");
+        else
+            System.out.println("유효한 인덱스 번호가 아닙니다");
+
+        mgr.printByOwner(loggedInUser.getId());
+    }
+
     // 건강 기록 기능
     private void healthMenu() {
         // TODO: 건강 기록 데이터 생성 후 아래 주석 해제
@@ -234,7 +243,6 @@ public class Core {
     // 복용 기록 기능
     private void medicineRecordMenu() {
         System.out.println("================= 복용 기록 리스트 =================");
-        medicineRecordMgr.initNextIndexId();
         medicineRecordMgr.printByOwner(loggedInUser.getId());
     }
 

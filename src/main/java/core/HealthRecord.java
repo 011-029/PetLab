@@ -71,6 +71,11 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
     }
 
     @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
+
+    @Override
     public void set(String[] uiTexts) {
         //date = uiTexts[0];
         meal = Integer.parseInt(uiTexts[1]);

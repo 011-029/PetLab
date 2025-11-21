@@ -73,6 +73,11 @@ public class MedicalRecord implements Manageable, UIData, PetOwned {
     }
 
     @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
+
+    @Override
     public void set(String[] uitexts) {
         // uitexts = {date, hospital, category, cost}
         date = LocalDate.parse(uitexts[0]);
