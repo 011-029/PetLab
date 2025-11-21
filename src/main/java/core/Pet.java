@@ -16,7 +16,7 @@ public class Pet implements Manageable, UIData {
     private String gender;
     private LocalDate birthDate;
     private double weight;
-    // TODO: 프로필 사진 경로 어떻게 저장할지 생각..
+    private String imagePath;
 
     private final ArrayList<HealthRecord> healthRecords = new ArrayList<>();
     private final ArrayList<MedicalRecord> medicalRecords = new ArrayList<>();
@@ -28,12 +28,18 @@ public class Pet implements Manageable, UIData {
 
     @Override
     public void read(Scanner scan) {
-        ownerId = scan.next();
-        name = scan.next();
-        species = scan.next();
-        gender = scan.next();
-        birthDate = ReadUtil.readDate(scan);
-        weight = scan.nextDouble();
+        String line = scan.nextLine();
+        String[] tokens = line.split(" ");
+        ownerId = tokens[0];
+        name = tokens[1];
+        species = tokens[2];
+        gender = tokens[3];
+        birthDate = LocalDate.parse(tokens[4]);
+        weight = Double.parseDouble(tokens[5]);
+
+        if (tokens.length == 7)
+            imagePath = tokens[6];
+        else imagePath = "";
     }
 
     public void addMedicalRecord(MedicalRecord r) {
@@ -51,6 +57,11 @@ public class Pet implements Manageable, UIData {
         return name.contains(kwd) || species.contains(kwd);
     }
 
+    public void setProfileImage(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+
     @Override
     public void set(String[] uitexts) {
         // uitexts = {ownerId, name, species, gender, birthDateStr, weightStr}
@@ -66,7 +77,8 @@ public class Pet implements Manageable, UIData {
     public String[] getUITexts() {
         return new String[]{
                 ownerId, name, species, gender,
-                birthDate.toString(), Double.toString(weight)
+                birthDate.toString(), Double.toString(weight),
+                imagePath == null ? "" : imagePath
         };
     }
 
@@ -77,6 +89,7 @@ public class Pet implements Manageable, UIData {
     public String getGender() { return gender; }
     public LocalDate getBirthDate() { return birthDate; }
     public double getWeight() { return weight; }
+    public String getImagePath() { return imagePath; }
     public ArrayList<MedicalRecord> getMedicalRecords(){
         return medicalRecords;
     }

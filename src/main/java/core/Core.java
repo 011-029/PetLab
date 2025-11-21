@@ -68,7 +68,8 @@ public class Core {
                 case 7 -> walkMenu();
                 case 10 -> registerPet();
                 case 11 -> printPetsByOwner();
-                case 12 -> search();
+                case 12 -> updatePetImage();
+                case 13 -> search();
                 case 0 -> {
                     return;
                 }
@@ -100,19 +101,21 @@ public class Core {
         } else {
             System.out.printf("(현재 선택된 펫: %s)\n", loggedInUserPet.getName());
         }
+        System.out.println("1. 건강 기록 기능");
+        System.out.println("2. 병원 진료 기록 기능");
+        System.out.println("3. 복용 기록 기능");
+        System.out.println("4. 복용 루틴 기능");
+        System.out.println("5. 놀이 기록 기능");
+        System.out.println("6. 예방접종 기록 기능");
+        System.out.println("7. 산책 기록 기능");
+        System.out.println("10. 내 펫 등록");
+        System.out.println("11. 내 펫 조회");
+        System.out.println("12. 펫 프로필 사진 등록");
+        System.out.println("13. 검색 기능");
+        System.out.println("0. 종료");
         while (true) {
             try {
-                System.out.println("1. 건강 기록 기능");
-                System.out.println("2. 병원 진료 기록 기능");
-                System.out.println("3. 복용 기록 기능");
-                System.out.println("4. 복용 루틴 기능");
-                System.out.println("5. 놀이 기록 기능");
-                System.out.println("6. 예방접종 기록 기능");
-                System.out.println("7. 산책 기록 기능");
-                System.out.println("10. 내 펫 등록");
-                System.out.println("11. 내 펫 조회");
-                System.out.println("12. 검색 기능");
-                System.out.println("0. 종료");
+
                 System.out.print(">> 메뉴 입력: ");
                 return scan.nextInt();
             } catch (InputMismatchException e) {
@@ -245,6 +248,16 @@ public class Core {
     private void walkMenu() {
         System.out.println("================= 산책 기록 리스트 =================");
         walkMgr.printByPet(loggedInUser.getId());
+    }
+
+    private void updatePetImage() {
+        System.out.println("================= 프로필 사진 등록 =================");
+        if (!loggedInUserPet.getImagePath().isEmpty())
+            System.out.println("현재 등록된 프로필 경로: " + loggedInUserPet.getImagePath());
+        System.out.print("등록할 프로필 사진 경로: ");
+        String imagePath = scan.next();
+        petMgr.updateProfileImage(loggedInUser.getId(), loggedInUserPet.getName(), imagePath);
+        System.out.printf("등록 완료! 등록된 경로: %s\n", imagePath);
     }
 
     private void search() {
