@@ -23,20 +23,20 @@ public class Core {
         return core;
     }
 
-    static UserMgr userMgr = UserMgr.getInstance();
-    static PetMgr petMgr = PetMgr.getInstance();
-    static User loggedInUser;
-    static Pet loggedInUserPet;
+    private final UserMgr userMgr = UserMgr.getInstance();
+    private final PetMgr petMgr = PetMgr.getInstance();
+    private User loggedInUser;
+    private Pet loggedInUserPet;
 
-    static HealthMgr healthMgr = HealthMgr.getInstance();
-    static MedicalMgr medicalMgr = MedicalMgr.getInstance();
-    static MedicineRecordMgr medicineRecordMgr = MedicineRecordMgr.getInstance();
-    static MedicineRoutineMgr medicineRoutineMgr = MedicineRoutineMgr.getInstance();
-    static PlayMgr playMgr = PlayMgr.getInstance();
-    static VaccineMgr vaccineMgr = VaccineMgr.getInstance();
-    static WalkMgr walkMgr = WalkMgr.getInstance();
+    private final HealthMgr healthMgr = HealthMgr.getInstance();
+    private final MedicalMgr medicalMgr = MedicalMgr.getInstance();
+    private final MedicineRecordMgr medicineRecordMgr = MedicineRecordMgr.getInstance();
+    private final MedicineRoutineMgr medicineRoutineMgr = MedicineRoutineMgr.getInstance();
+    private final PlayMgr playMgr = PlayMgr.getInstance();
+    private final VaccineMgr vaccineMgr = VaccineMgr.getInstance();
+    private final WalkMgr walkMgr = WalkMgr.getInstance();
 
-    static Scanner scan = new Scanner(System.in);
+    private final Scanner scan = new Scanner(System.in);
 
     public void run() {
         // 데이터 불러오기
@@ -207,7 +207,7 @@ public class Core {
     }
 
     // 기록 삭제 기능
-    static private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
+    private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
         System.out.print(">> 삭제할 인덱스 번호: ");
         int indexId = scan.nextInt();
 
