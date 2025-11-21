@@ -55,6 +55,10 @@ public class MedicineRecord implements Manageable, UIData, PetOwned {
         return petName;
     }
 
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
 
     @Override
     public void set(String[] uiTexts) {

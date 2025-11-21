@@ -60,6 +60,11 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
     }
 
     @Override
+    public int getIndexId() {
+        return indexId;
+    }
+
+    @Override
     public void set(String[] uiTexts) {
 
     }
