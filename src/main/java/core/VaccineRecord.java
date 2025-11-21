@@ -134,6 +134,10 @@ public class VaccineRecord implements Manageable, UIData, PetOwned {
         return petName;
     }
 
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
 
     private String safe(String s) {
         return (s == null ? "" : s.trim());

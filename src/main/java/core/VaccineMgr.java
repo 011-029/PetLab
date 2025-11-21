@@ -54,14 +54,6 @@ public class VaccineMgr extends PetRecordMgr<VaccineRecord> {
         return result;
     }
 
-    public boolean deleteByIndex(int index) {
-        if (index < 0 || index >= mList.size()) {
-            return false;
-        }
-        mList.remove(index);
-        return true;
-    }
-
     public void printAll() {
         for (int i = 0; i < mList.size(); i++) {
             System.out.printf("[%d] ", i);
