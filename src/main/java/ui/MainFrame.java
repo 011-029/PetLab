@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
 
     public void loadPetData() {
         PetMgr petMgr = PetMgr.getInstance();
-        PetMgr.getInstance().readAll("pets.txt", new Factory<Pet>() {
+        PetMgr.getInstance().readAll("data/pets.txt", new Factory<Pet>() {
             public Pet create() {
                 return new Pet();
             }

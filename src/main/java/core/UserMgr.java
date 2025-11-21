@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 public class UserMgr extends DataEngineImpl<User> {
     private static UserMgr mgr = null;
-    private static final String USER_INFO_FILE = "users.txt";
+    private static final String USER_INFO_FILE = "data/users.txt";
 
     public static UserMgr getInstance() {
         if (mgr == null)

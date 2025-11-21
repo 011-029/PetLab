@@ -52,7 +52,7 @@ public class MainPanel extends JPanel {
         // --- [2. 강아지 사진 넣기] ---
         // 이미지 파일을 불러와서 크기를 조절하는 코드입니다.
         // TODO: 펫별로 사진 경로 적용
-        ImageIcon originalIcon = new ImageIcon("images/profile.jpg");
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/images/profile.jpg"));
 
         // 사진이 너무 클 수 있으니 120x120 크기로 강제 조절
         Image img = originalIcon.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);

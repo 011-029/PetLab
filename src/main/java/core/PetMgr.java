@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PetMgr extends DataEngineImpl<Pet> {
     private static PetMgr mgr = null;
-    private static final String PET_INFO_FILE = "pets.txt";
+    private static final String PET_INFO_FILE = "data/pets.txt";
 
     public static PetMgr getInstance() {
         if (mgr == null)

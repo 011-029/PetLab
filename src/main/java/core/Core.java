@@ -197,39 +197,39 @@ public class Core {
 
     // 초기 데이터 불러오기
     private void loadAllData() {
-        UserMgr.getInstance().readAll("users.txt", new Factory<User> () {
+        UserMgr.getInstance().readAll("data/users.txt", new Factory<User> () {
             public User create() {
                 return new User();
             }
         });
-        PetMgr.getInstance().readAll("pets.txt", new Factory<Pet> () {
+        PetMgr.getInstance().readAll("data/pets.txt", new Factory<Pet> () {
             public Pet create() {
                 return new Pet();
             }
         });
-        MedicalMgr.getInstance().readAll("medicalRecords.txt", new Factory<>() {
+        MedicalMgr.getInstance().readAll("data/medicalRecords.txt", new Factory<>() {
             @Override
             public MedicalRecord create() {
                 return new MedicalRecord();
             }
         });
-        WalkMgr.getInstance().readAll("WalkRecords.txt", new Factory<>() {
+        WalkMgr.getInstance().readAll("data/WalkRecords.txt", new Factory<>() {
             @Override
             public WalkRecord create() {
                 return new WalkRecord();
             }
         });
-        PlayMgr.getInstance().readAll("playRecord.txt", new Factory<PlayRecord>() {
+        PlayMgr.getInstance().readAll("data/playRecord.txt", new Factory<PlayRecord>() {
             public PlayRecord create() {
                 return new PlayRecord();
             }
         });
-        MedicineRecordMgr.getInstance().readAll("medicineRecord.txt", new Factory<MedicineRecord>() {
+        MedicineRecordMgr.getInstance().readAll("data/medicineRecord.txt", new Factory<MedicineRecord>() {
             public MedicineRecord create() {
                 return new MedicineRecord();
             }
         });
-        MedicineRoutineMgr.getInstance().readAll("medicineRoutine.txt", new Factory<MedicineRoutine>() {
+        MedicineRoutineMgr.getInstance().readAll("data/medicineRoutine.txt", new Factory<MedicineRoutine>() {
             public MedicineRoutine create() {
                 return new MedicineRoutine();
             }
