@@ -36,5 +36,6 @@ public class WalkMgr extends PetRecordMgr<WalkRecord> {
                 return new WalkRecord();
             }
         });
+        initNextIndexId();
     }
 }

@@ -30,6 +30,16 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
         memo = scan.nextLine().trim();
     }
 
+    public void set(String ownerId, String petName, LocalDate date,
+                    int playTime, String playType, String memo) {
+        this.ownerId = ownerId;
+        this.petName = petName;
+        this.date = date;
+        this.playTime = playTime;
+        this.playType = playType;
+        this.memo = memo;
+    }
+
     public void print() {
         System.out.printf("#%d [%d년 %d월 %d일] ", indexId,
                 date.getYear(), date.getMonthValue(), date.getDayOfMonth());
@@ -62,6 +72,11 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
     @Override
     public int getIndexId() {
         return indexId;
+    }
+
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
     }
 
     @Override

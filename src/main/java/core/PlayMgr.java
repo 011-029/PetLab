@@ -35,5 +35,6 @@ public class PlayMgr extends PetRecordMgr<PlayRecord> {
                 return new PlayRecord();
             }
         });
+        initNextIndexId();
     }
 }

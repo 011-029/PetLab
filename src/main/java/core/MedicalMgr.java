@@ -39,5 +39,6 @@ public class MedicalMgr extends PetRecordMgr<MedicalRecord> {
                 return new MedicalRecord();
             }
         });
+        initNextIndexId();
     }
 }

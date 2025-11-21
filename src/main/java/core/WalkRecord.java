@@ -64,6 +64,10 @@ public class WalkRecord implements Manageable, UIData, PetOwned {
         return indexId;
     }
 
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
 
     @Override
     public void set(String[] uitexts) {

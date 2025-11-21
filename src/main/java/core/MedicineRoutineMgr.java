@@ -58,5 +58,6 @@ public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
                 return new MedicineRoutine();
             }
         });
+        initNextIndexId();
     }
 }
