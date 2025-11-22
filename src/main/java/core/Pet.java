@@ -53,6 +53,19 @@ public class Pet implements Manageable, UIData {
     }
 
     @Override
+    public String[] toTextArray() {
+        return new String[] {
+                ownerId,
+                name,
+                species,
+                gender,
+                String.valueOf(birthDate),
+                String.valueOf(weight),
+                imagePath == null ? "" : imagePath
+        };
+    }
+
+    @Override
     public boolean matches(String kwd) {
         return name.contains(kwd) || species.contains(kwd);
     }

@@ -60,6 +60,19 @@ public class VaccineRecord implements Manageable, UIData, PetOwned {
     }
 
     @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                vaccine,
+                hospital,
+                memo
+        };
+    }
+
+    @Override
     public boolean matches(String kwd) {
         if (kwd == null || kwd.isBlank()) return true;
         kwd = kwd.trim();

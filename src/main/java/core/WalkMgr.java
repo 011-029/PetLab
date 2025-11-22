@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class WalkMgr extends PetRecordMgr<WalkRecord> {
     private static WalkMgr mgr = null;
+    private static final String FILE_PATH = "data/WalkRecords.txt";
 
     public static WalkMgr getInstance() {
         if (mgr == null)
@@ -19,7 +20,7 @@ public class WalkMgr extends PetRecordMgr<WalkRecord> {
                              String photoPath, String memo) {
         WalkRecord r = new WalkRecord();
         r.apply(pet, date, walkTime, photoPath, memo);
-        addWithIndexId(r);
+        saveWithIndexId(r);
     }
 
     public ArrayList<WalkRecord> searchPeriod(LocalDate start, LocalDate end) {
@@ -37,12 +38,17 @@ public class WalkMgr extends PetRecordMgr<WalkRecord> {
     }
 
     public void loadFromFile() {
-        readAll("data/WalkRecords.txt", new Factory<>() {
+        readAll(FILE_PATH, new Factory<>() {
             @Override
             public WalkRecord create() {
                 return new WalkRecord();
             }
         });
         initNextIndexId();
+    }
+
+    @Override
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }

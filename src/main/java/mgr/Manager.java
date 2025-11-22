@@ -2,6 +2,9 @@
 package mgr;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +16,7 @@ public class Manager<T extends Manageable> {
 
     // find(): 키워드로 객체 찾아서 일치하는 첫 번째 객체 반환
     public T find(String kwd) {
-        for (T m: mList)
+        for (T m : mList)
             if (m.matches(kwd))
                 return m;
         return null;
@@ -33,7 +36,7 @@ public class Manager<T extends Manageable> {
 
     // printAll(): 리스트 내 모든 객체에서 print() 실행
     public void printAll() {
-        for (T m: mList) {
+        for (T m : mList) {
             m.print();
         }
     }
@@ -46,7 +49,7 @@ public class Manager<T extends Manageable> {
             kwd = keyScanner.next();
             if (kwd.equals("end"))
                 break;
-            for (T m: mList) {
+            for (T m : mList) {
                 if (m.matches(kwd))
                     m.print();
             }
@@ -56,7 +59,7 @@ public class Manager<T extends Manageable> {
     // findAll(): 키워드로 검색해서 해당하는 객체를 모두 찾아 리스트로 반환
     public List<T> findAll(String kwd) {
         List<T> result = new ArrayList<>();
-        for (T m: mList) {
+        for (T m : mList) {
             if (m.matches(kwd))
                 result.add(m);
         }
@@ -78,5 +81,17 @@ public class Manager<T extends Manageable> {
     // addElement(): 리스트에 객체를 추가
     public void addElement(T e) {
         mList.add(e);
+    }
+
+    // saveToFile(): txt 파일로 저장
+    public void saveToFile(String filename) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filename))) {
+            for (T m : mList) {
+                String[] arr = m.toTextArray();
+                pw.println(String.join(" ", arr));
+            }
+        } catch (IOException e) {
+            System.out.println(filename + ": 파일 저장 중 오류 발생");
+        }
     }
 }

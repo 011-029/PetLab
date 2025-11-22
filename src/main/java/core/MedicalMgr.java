@@ -9,6 +9,7 @@ import java.util.ArrayList;
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class MedicalMgr extends PetRecordMgr<MedicalRecord> {
     private static MedicalMgr mgr = null;
+    private final String FILE_PATH = "data/medicalRecords.txt";
 
     public static MedicalMgr getInstance() {
         if (mgr == null)
@@ -20,7 +21,7 @@ public class MedicalMgr extends PetRecordMgr<MedicalRecord> {
                              String hospital, String category, int cost) {
         MedicalRecord r = new MedicalRecord();
         r.apply(pet, date, hospital, category, cost);
-        addWithIndexId(r);
+        saveWithIndexId(r);
     }
 
     public ArrayList<MedicalRecord> searchPeriod(LocalDate start, LocalDate end) {
@@ -40,12 +41,17 @@ public class MedicalMgr extends PetRecordMgr<MedicalRecord> {
     }
 
     public void loadFromFile() {
-        readAll("data/medicalRecords.txt", new Factory<>() {
+        readAll(FILE_PATH, new Factory<>() {
             @Override
             public MedicalRecord create() {
                 return new MedicalRecord();
             }
         });
         initNextIndexId();
+    }
+
+    @Override
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }

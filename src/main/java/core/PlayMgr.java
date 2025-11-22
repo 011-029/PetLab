@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class PlayMgr extends PetRecordMgr<PlayRecord> {
     private static PlayMgr mgr = null;
+    private static final String FILE_PATH = "data/playRecord.txt";
 
     public static PlayMgr getInstance() {
         if (mgr == null)
@@ -20,7 +21,7 @@ public class PlayMgr extends PetRecordMgr<PlayRecord> {
                              String playType, String memo) {
         PlayRecord r = new PlayRecord();
         r.apply(pet, date, playTime, playType, memo);
-        addWithIndexId(r);
+        saveWithIndexId(r);
     }
 
     public ArrayList<PlayRecord> searchPeriod(LocalDate start, LocalDate end) {
@@ -38,11 +39,16 @@ public class PlayMgr extends PetRecordMgr<PlayRecord> {
     }
 
     public void loadFromFile() {
-        readAll("data/playRecord.txt", new Factory<PlayRecord>() {
+        readAll(FILE_PATH, new Factory<PlayRecord>() {
             public PlayRecord create() {
                 return new PlayRecord();
             }
         });
         initNextIndexId();
+    }
+
+    @Override
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }

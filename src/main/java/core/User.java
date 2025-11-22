@@ -24,6 +24,13 @@ public class User implements Manageable, UIData {
     }
 
     @Override
+    public String[] toTextArray() {
+        return new String[] {
+                id, password, name
+        };
+    }
+
+    @Override
     public boolean matches(String kwd) {
         return id.contains(kwd) || name.contains(kwd);
     }

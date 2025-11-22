@@ -45,6 +45,19 @@ public class MedicineRecord implements Manageable, UIData, PetOwned {
         System.out.println();
     }
 
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                medicineName,
+                String.valueOf(takenDate),
+                takenTime,
+                String.valueOf(dosage)
+        };
+    }
+
     public boolean matches(String kwd) {
         if (kwd.isEmpty())
             return true;

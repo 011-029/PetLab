@@ -49,6 +49,19 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
         System.out.println();
     }
 
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                String.valueOf(playTime),
+                playType,
+                memo
+        };
+    }
+
     public boolean matches(String kwd) {
         if (kwd.isEmpty())
             return true;

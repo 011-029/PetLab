@@ -53,7 +53,20 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
                 brushed != null ? brushed : "",
                 memo != null ? memo : ""
         );
+    }
 
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                String.valueOf(meal),
+                String.valueOf(water),
+                brushed,
+                memo
+        };
     }
 
     public boolean matches(String kwd) {

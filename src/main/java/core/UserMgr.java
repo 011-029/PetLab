@@ -3,13 +3,9 @@ package core;
 import facade.DataEngineImpl;
 import mgr.Factory;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 public class UserMgr extends DataEngineImpl<User> {
     private static UserMgr mgr = null;
-    private static final String USER_FILE_PATH = "data/users.txt";
+    private static final String FILE_PATH = "data/users.txt";
 
     public static UserMgr getInstance() {
         if (mgr == null)
@@ -38,19 +34,9 @@ public class UserMgr extends DataEngineImpl<User> {
 
         String[] arr = {id, pw, name};
         addNewRow(arr);
-        saveToFile(USER_FILE_PATH);
+        saveToFile(FILE_PATH);
 
         return true;
-    }
-
-    public void saveToFile(String filename) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(filename))) {
-            for (User u: mList) {
-                pw.printf("%s %s %s\n", u.getId(), u.getPassword(), u.getName());
-            }
-        } catch (IOException e) {
-            System.out.println("파일 저장 중 오류 발생");
-        }
     }
 
     public User login(String id, String pw) {
@@ -62,10 +48,14 @@ public class UserMgr extends DataEngineImpl<User> {
     }
 
     public void loadFromFile() {
-        readAll("data/users.txt", new Factory<User>() {
+        readAll(FILE_PATH, new Factory<User>() {
             public User create() {
                 return new User();
             }
         });
+    }
+
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }

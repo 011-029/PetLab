@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
     private static MedicineRoutineMgr mgr = null;
+    private final String FILE_PATH = "data/medicineRoutine.txt";
     Scanner scan = new Scanner(System.in);
 
     public static MedicineRoutineMgr getInstance() {
@@ -22,7 +23,7 @@ public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
                               String takenDOW, String takenTime, int dosage) {
         MedicineRoutine r = new MedicineRoutine();
         r.apply(pet, medicineName, takenDOW, takenTime, dosage);
-        addWithIndexId(r);
+        saveWithIndexId(r);
     }
 
     public void printTodayRoutine(String ownerId) {
@@ -54,6 +55,7 @@ public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
             else
                 r.toggleTaken();
 
+            saveToFile(FILE_PATH);
             printTodayRoutine(ownerId);
         }
     }
@@ -64,11 +66,16 @@ public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
     }
 
     public void loadFromFile() {
-        readAll("data/medicineRoutine.txt", new Factory<MedicineRoutine>() {
+        readAll(FILE_PATH, new Factory<MedicineRoutine>() {
             public MedicineRoutine create() {
                 return new MedicineRoutine();
             }
         });
         initNextIndexId();
+    }
+
+    @Override
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }

@@ -206,6 +206,7 @@ public class Core {
             System.out.println("2. 병원 진료 기록 작성");
             System.out.println("나머진 귀찮아서 안만들었음..");
             System.out.println("0. 작성 메뉴 종료");
+            System.out.print(">> 메뉴 입력: ");
             int opt = scan.nextInt();
             switch (opt) {
                 case 1 -> addNewPlayRecord();
@@ -259,6 +260,8 @@ public class Core {
             System.out.println("6. 예방접종기록");
             System.out.println("7. 산책기록");
             System.out.println("0. 삭제 메뉴 종료");
+            System.out.println("※※ 주의: 레코드 파일에서 ㄹㅇ 삭제됩니다 ※※");
+            System.out.print(">> 메뉴 입력: ");
             int opt = scan.nextInt();
             switch (opt) {
                 case 1 -> removeRecord(healthMgr);

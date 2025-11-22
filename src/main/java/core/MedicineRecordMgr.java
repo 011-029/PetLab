@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     private static MedicineRecordMgr mgr = null;
+    private final String FILE_PATH = "data/medicineRecord.txt";
 
     public static MedicineRecordMgr getInstance() {
         if (mgr == null)
@@ -19,7 +20,7 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
                              LocalDate takenDate, String takenTime, int dosage) {
         MedicineRecord r = new MedicineRecord();
         r.apply(pet, medicineName, takenDate, takenTime, dosage);
-        addWithIndexId(r);
+        saveWithIndexId(r);
     }
 
     public ArrayList<MedicineRecord> searchPeriod(LocalDate start, LocalDate end) {
@@ -33,7 +34,7 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
 
     public MedicineRecord createFromRoutine(MedicineRoutine routine) {
         MedicineRecord record = routine.RoutineToRecord();
-        addWithIndexId(record);
+        saveWithIndexId(record);
         return record;
     }
 
@@ -43,11 +44,16 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     }
 
     public void loadFromFile() {
-        readAll("data/medicineRecord.txt", new Factory<MedicineRecord>() {
+        readAll(FILE_PATH, new Factory<MedicineRecord>() {
             public MedicineRecord create() {
                 return new MedicineRecord();
             }
         });
         initNextIndexId();
+    }
+
+    @Override
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }

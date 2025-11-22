@@ -25,21 +25,27 @@ public abstract class PetRecordMgr<T extends PetOwned & Manageable>
     }
 
     public boolean removeByIndexId(int indexId) {
-        return mList.removeIf(m -> m.getIndexId() == indexId);
         // 삭제된 객체가 있으면 true, 없으면 false 반환
+        boolean removed = mList.removeIf(m -> m.getIndexId() == indexId);
+        if (removed)
+            saveToFile(getFilePath());
+        return removed;
     }
 
     protected void initNextIndexId() {
         int max = 0;
-        for (T r : mList) {
-            if (r.getIndexId() > max)
-                max = r.getIndexId();
+        for (T m : mList) {
+            if (m.getIndexId() > max)
+                max = m.getIndexId();
         }
         nextIndexId = max + 1;
     }
 
-    protected void addWithIndexId(T record) {
+    protected void saveWithIndexId(T record) {
         record.setIndexId(nextIndexId++);
         mList.add(record);
+        saveToFile(getFilePath());
     }
+
+    protected abstract String getFilePath();
 }

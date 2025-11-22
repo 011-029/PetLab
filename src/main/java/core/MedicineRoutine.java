@@ -50,6 +50,20 @@ public class MedicineRoutine implements Manageable, UIData, PetOwned {
         System.out.println();
     }
 
+    @Override
+    public String[] toTextArray() {
+        String dow = String.join("", takenDOW);
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                medicineName,
+                dow,
+                takenTime,
+                String.valueOf(dosage)
+        };
+    }
+
     public void toggleTaken() {
         // true ↔ false 변경 -> true 면 MedicineRecord 로 생성
         isTaken = !isTaken;

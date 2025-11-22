@@ -47,6 +47,18 @@ public class WalkRecord implements Manageable, UIData, PetOwned {
         if(!memo.equals("0")) System.out.printf("| 메모: %s\n", memo);
     }
 
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                photoPath,
+                memo
+        };
+    }
+
     public boolean matches(String kwd) {
         if(kwd.isEmpty())
             return true;
