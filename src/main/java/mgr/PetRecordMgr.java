@@ -38,7 +38,7 @@ public abstract class PetRecordMgr<T extends PetOwned & Manageable>
         nextIndexId = max + 1;
     }
 
-    public void addNewRecord(T record) {
+    protected void addWithIndexId(T record) {
         record.setIndexId(nextIndexId++);
         mList.add(record);
     }

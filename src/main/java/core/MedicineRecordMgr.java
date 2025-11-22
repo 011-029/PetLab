@@ -24,6 +24,12 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
         return result;
     }
 
+    public MedicineRecord createFromRoutine(MedicineRoutine routine) {
+        MedicineRecord record = routine.RoutineToRecord();
+        addWithIndexId(record);
+        return record;
+    }
+
     @Override
     public void addNewRow(String[] uiTexts) {
 

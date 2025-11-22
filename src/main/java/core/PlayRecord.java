@@ -30,10 +30,10 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
         memo = scan.nextLine().trim();
     }
 
-    public void set(String ownerId, String petName, LocalDate date,
+    public void set(Pet pet, LocalDate date,
                     int playTime, String playType, String memo) {
-        this.ownerId = ownerId;
-        this.petName = petName;
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
         this.date = date;
         this.playTime = playTime;
         this.playType = playType;

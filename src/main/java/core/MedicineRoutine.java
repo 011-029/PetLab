@@ -42,14 +42,15 @@ public class MedicineRoutine implements Manageable, UIData, PetOwned {
     public void toggleTaken() {
         // true ↔ false 변경 -> true 면 MedicineRecord 로 생성
         isTaken = !isTaken;
+        MedicineRecordMgr mgr = MedicineRecordMgr.getInstance();
+
         if (isTaken) {
-            MedicineRecord record = RoutineToRecord();
-            MedicineRecordMgr.getInstance().addNewRecord(record);
-            lastRecordId = record.indexId;
+            MedicineRecord record = mgr.createFromRoutine(this);
+            lastRecordId = record.getIndexId();
             System.out.printf("▶ %d번으로 Medicine Record가 생성되었습니다\n", lastRecordId);
         } else {
             if (lastRecordId != -1) {
-                MedicineRecordMgr.getInstance().removeByIndexId(lastRecordId);
+                mgr.removeByIndexId(lastRecordId);
                 System.out.printf("▶ %d번 Medicine Record가 삭제되었습니다\n", lastRecordId);
                 lastRecordId = -1;
             }

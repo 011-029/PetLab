@@ -73,10 +73,8 @@ public class Core {
                 case 11 -> printPetsByOwner();
                 case 12 -> updatePetImage();
                 case 13 -> search();
-                case 100 -> {
-                    medicalMgr.printByOwner(loggedInUser.getId());
-                    removeRecord(medicalMgr);
-                }
+                case 100 -> removeRecord(medicalMgr);
+                case 101 -> addNewPlayRecord();
                 case 0 -> {
                     return;
                 }
@@ -206,17 +204,34 @@ public class Core {
         }
     }
 
+    // 놀이 기록 추가 기능
+    private void addNewPlayRecord() {
+        System.out.print(">> 날짜 입력: ");
+        LocalDate date = ReadUtil.readDate(scan);
+        System.out.print(">> 놀이시간 입력: ");
+        int playTime = scan.nextInt();
+        System.out.print(">> 놀이방식 입력(0 입력시 비워둠): ");
+        String playType = scan.next();
+        System.out.print(">> 메모 입력(0 입력시 비워둠): ");
+        scan.nextLine();
+        String memo = scan.nextLine();
+        playMgr.addNewRecord(loggedInUserPet, date, playTime, playType, memo);
+        System.out.println("새 놀이 기록 추가 완료");
+        playMgr.printByOwner(loggedInUser.getId());
+    }
+
     // 기록 삭제 기능
     private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
+        mgr.printByOwner(loggedInUser.getId());
         System.out.print(">> 삭제할 인덱스 번호: ");
         int indexId = scan.nextInt();
-
         T m = mgr.findByIndexId(indexId);
 
         if (m == null || !m.getOwnerId().equals(loggedInUser.getId())) {
             System.out.println("유효한 인덱스 번호가 아닙니다");
             return;
         }
+
         boolean result = mgr.removeByIndexId(indexId);
         if (result)
             System.out.println(indexId + "번 데이터가 삭제되었습니다");

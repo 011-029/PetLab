@@ -15,6 +15,14 @@ public class PlayMgr extends PetRecordMgr<PlayRecord> {
         return mgr;
     }
 
+    // 새 기록 추가
+    public void addNewRecord(Pet pet, LocalDate date, int playTime,
+                             String playType, String memo) {
+        PlayRecord r = new PlayRecord();
+        r.set(pet, date, playTime, playType, memo);
+        addWithIndexId(r);
+    }
+
     public ArrayList<PlayRecord> searchPeriod(LocalDate start, LocalDate end) {
         ArrayList<PlayRecord> result = new ArrayList<>();
         for(PlayRecord r : mList) {
