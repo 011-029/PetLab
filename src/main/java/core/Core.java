@@ -1,5 +1,8 @@
 package core;
 
+import mgr.Manageable;
+import mgr.PetOwned;
+import mgr.PetRecordMgr;
 import util.DataLoader;
 import util.ReadUtil;
 
@@ -20,20 +23,20 @@ public class Core {
         return core;
     }
 
-    static UserMgr userMgr = UserMgr.getInstance();
-    static PetMgr petMgr = PetMgr.getInstance();
-    User loggedInUser;
-    Pet loggedInUserPet;
+    private final UserMgr userMgr = UserMgr.getInstance();
+    private final PetMgr petMgr = PetMgr.getInstance();
+    private User loggedInUser;
+    private Pet loggedInUserPet;
 
-    static HealthMgr healthMgr = HealthMgr.getInstance();
-    static MedicalMgr medicalMgr = MedicalMgr.getInstance();
-    static MedicineRecordMgr medicineRecordMgr = MedicineRecordMgr.getInstance();
-    static MedicineRoutineMgr medicineRoutineMgr = MedicineRoutineMgr.getInstance();
-    static PlayMgr playMgr = PlayMgr.getInstance();
-    static VaccineMgr vaccineMgr = VaccineMgr.getInstance();
-    static WalkMgr walkMgr = WalkMgr.getInstance();
+    private final HealthMgr healthMgr = HealthMgr.getInstance();
+    private final MedicalMgr medicalMgr = MedicalMgr.getInstance();
+    private final MedicineRecordMgr medicineRecordMgr = MedicineRecordMgr.getInstance();
+    private final MedicineRoutineMgr medicineRoutineMgr = MedicineRoutineMgr.getInstance();
+    private final PlayMgr playMgr = PlayMgr.getInstance();
+    private final VaccineMgr vaccineMgr = VaccineMgr.getInstance();
+    private final WalkMgr walkMgr = WalkMgr.getInstance();
 
-    Scanner scan = new Scanner(System.in);
+    private final Scanner scan = new Scanner(System.in);
 
     public void run() {
         // 데이터 불러오기
@@ -45,12 +48,8 @@ public class Core {
             int opt = startMenu();
             switch (opt) {
                 case 1 -> signUp();
-                case 2 -> {
-                    if (login()) break loginLoop;
-                }
-                case 3 -> {
-                    return;
-                }
+                case 2 -> { if (login()) break loginLoop; }
+                case 3 -> { return; }
                 default -> System.out.println("잘못 입력하셨습니다.");
             }
         }
@@ -66,13 +65,13 @@ public class Core {
                 case 5 -> playMenu();
                 case 6 -> vaccineMenu();
                 case 7 -> walkMenu();
+                case 8 -> addNewRecordMenu();
+                case 9 -> removeRecordMenu();
                 case 10 -> registerPet();
                 case 11 -> printPetsByOwner();
                 case 12 -> updatePetImage();
                 case 13 -> search();
-                case 0 -> {
-                    return;
-                }
+                case 0 -> { return; }
                 default -> System.out.println("잘못 입력하셨습니다.");
             }
         }
@@ -108,6 +107,8 @@ public class Core {
         System.out.println("5. 놀이 기록 기능");
         System.out.println("6. 예방접종 기록 기능");
         System.out.println("7. 산책 기록 기능");
+        System.out.println("8. 새 기록 작성 메뉴");
+        System.out.println("9. 기록 삭제 메뉴");
         System.out.println("10. 내 펫 등록");
         System.out.println("11. 내 펫 조회");
         System.out.println("12. 펫 프로필 사진 등록");
@@ -115,7 +116,6 @@ public class Core {
         System.out.println("0. 종료");
         while (true) {
             try {
-
                 System.out.print(">> 메뉴 입력: ");
                 return scan.nextInt();
             } catch (InputMismatchException e) {
@@ -199,55 +199,152 @@ public class Core {
         }
     }
 
+    private void addNewRecordMenu() {
+        System.out.println("============= 기록 작성 메뉴 =============");
+        while (true) {
+            System.out.println("1. 놀이 기록 작성");
+            System.out.println("2. 병원 진료 기록 작성");
+            System.out.println("나머진 귀찮아서 안만들었음..");
+            System.out.println("0. 작성 메뉴 종료");
+            System.out.print(">> 메뉴 입력: ");
+            int opt = scan.nextInt();
+            switch (opt) {
+                case 1 -> addNewPlayRecord();
+                case 2 -> addNewMedicalRecord();
+                case 0 -> { return; }
+                default -> System.out.println("잘못 입력하셨습니다");
+            }
+        }
+    }
+
+    // 놀이 기록 추가 기능
+    private void addNewPlayRecord() {
+        System.out.println("=============== 놀이 기록 작성 ===============");
+        System.out.print(">> 날짜 입력: ");
+        LocalDate date = ReadUtil.readDate(scan);
+        System.out.print(">> 놀이시간 입력: ");
+        int playTime = scan.nextInt();
+        System.out.print(">> 놀이방식 입력(0 입력시 비워둠): ");
+        String playType = scan.next();
+        System.out.print(">> 메모 입력(0 입력시 비워둠): ");
+        scan.nextLine();
+        String memo = scan.nextLine();
+        playMgr.addNewRecord(loggedInUserPet, date, playTime, playType, memo);
+        System.out.println("새 놀이 기록 작성 완료");
+        playMgr.printByOwner(loggedInUser.getId());
+    }
+
+    private void addNewMedicalRecord() {
+        System.out.println("=============== 진료 기록 작성 ===============");
+        System.out.print(">> 날짜 입력: ");
+        LocalDate date = ReadUtil.readDate(scan);
+        System.out.print(">> 병원명 입력: ");
+        String hospital = scan.next();
+        System.out.print(">> 증상 입력: ");
+        String category = scan.next();
+        System.out.print(">> 진료비 입력(-1 입력시 비워둠): ");
+        int cost = scan.nextInt();
+        medicalMgr.addNewRecord(loggedInUserPet, date, hospital, category, cost);
+        System.out.println("새 진료 기록 작성 완료");
+        medicalMgr.printByOwner(loggedInUser.getId());
+    }
+
+    private void removeRecordMenu() {
+        System.out.println("============= 기록 삭제 메뉴 =============");
+        while (true) {
+            System.out.println("1. 건강기록");
+            System.out.println("2. 진료기록");
+            System.out.println("3. 복용기록");
+            System.out.println("4. 복용루틴");
+            System.out.println("5. 놀이기록");
+            System.out.println("6. 예방접종기록");
+            System.out.println("7. 산책기록");
+            System.out.println("0. 삭제 메뉴 종료");
+            System.out.println("※※ 주의: 레코드 파일에서 ㄹㅇ 삭제됩니다 ※※");
+            System.out.print(">> 메뉴 입력: ");
+            int opt = scan.nextInt();
+            switch (opt) {
+                case 1 -> removeRecord(healthMgr);
+                case 2 -> removeRecord(medicalMgr);
+                case 3 -> removeRecord(medicineRecordMgr);
+                case 4 -> removeRecord(medicineRoutineMgr);
+                case 5 -> removeRecord(playMgr);
+                case 6 -> removeRecord(vaccineMgr);
+                case 7 -> removeRecord(walkMgr);
+                case 0 -> { return; }
+                default -> System.out.println("잘못 입력하셨습니다");
+            }
+        }
+    }
+
+    // 기록 삭제 기능
+    private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
+        mgr.printByOwner(loggedInUser.getId());
+        System.out.print(">> 삭제할 인덱스 번호: ");
+        int indexId = scan.nextInt();
+        T m = mgr.findByIndexId(indexId);
+
+        if (m == null || !m.getOwnerId().equals(loggedInUser.getId())) {
+            System.out.println("유효한 인덱스 번호가 아닙니다");
+            return;
+        }
+
+        boolean result = mgr.removeByIndexId(indexId);
+        if (result)
+            System.out.println(indexId + "번 데이터가 삭제되었습니다");
+        else
+            System.out.println("유효한 인덱스 번호가 아닙니다");
+
+        mgr.printByOwner(loggedInUser.getId());
+    }
+
     // 건강 기록 기능
     private void healthMenu() {
         // TODO: 건강 기록 데이터 생성 후 아래 주석 해제
 //        System.out.println("================= 건강 기록 리스트 =================");
-//        healthMgr.printByPet(loggedInUser.getId());
+//        healthMgr.printByOwner(loggedInUser.getId());
         System.out.println("구현중");
     }
 
     // 진료 기록 기능
     private void medicalMenu() {
         System.out.println("================= 병원 진료 기록 리스트 =================");
-        medicalMgr.printByPet(loggedInUser.getId());
+        medicalMgr.printByOwner(loggedInUser.getId());
     }
 
     // 복용 기록 기능
     private void medicineRecordMenu() {
         System.out.println("================= 복용 기록 리스트 =================");
-        medicineRecordMgr.initNextIndexId();
-        medicineRecordMgr.printByPet(loggedInUser.getId());
+        medicineRecordMgr.printByOwner(loggedInUser.getId());
     }
 
     // 복용 루틴 기능
     private void medicineRoutineMenu() {
         System.out.println("================= 복용 루틴 =================");
-        medicineRoutineMgr.printByPet(loggedInUser.getId());
+        medicineRoutineMgr.printByOwner(loggedInUser.getId());
         System.out.println("-------------- 오늘 복용해야 할 약 --------------");
-        // TODO: 로그인한 유저 루틴만 출력
-        medicineRoutineMgr.printTodayRoutine();
-        medicineRoutineMgr.checkTaken();
+        medicineRoutineMgr.printTodayRoutine(loggedInUser.getId());
+        medicineRoutineMgr.checkTaken(loggedInUser.getId());
     }
 
     // 놀이 기록 기능
     private void playMenu() {
         System.out.println("================= 놀이 기록 리스트 =================");
-        playMgr.printByPet(loggedInUser.getId());
+        playMgr.printByOwner(loggedInUser.getId());
     }
 
     // 예방접종 기록 기능
     private void vaccineMenu() {
         // TODO: 예방접종 기록 데이터 생성 후 아래 주석 해제
 //        System.out.println("================= 예방접종 기록 리스트 =================");
-//        vaccineMgr.printByPet(loggedInUser.getId());
+//        vaccineMgr.printByOwner(loggedInUser.getId());
         System.out.println("구현중");
     }
 
     // 산책 기록 기능
     private void walkMenu() {
         System.out.println("================= 산책 기록 리스트 =================");
-        walkMgr.printByPet(loggedInUser.getId());
+        walkMgr.printByOwner(loggedInUser.getId());
     }
 
     private void updatePetImage() {
@@ -360,8 +457,8 @@ public class Core {
                 // 5. 오늘 루틴 보기 + 체크 ---------------------------
                 case "5" -> {
                     System.out.println("\n----------------- 오늘 복용해야 할 약 -----------------");
-                    medicineRoutineMgr.printTodayRoutine();
-                    medicineRoutineMgr.checkTaken();
+                    medicineRoutineMgr.printTodayRoutine(loggedInUser.getId());
+                    medicineRoutineMgr.checkTaken(loggedInUser.getId());
                 }
 
                 // 0. 종료 --------------------------------------------

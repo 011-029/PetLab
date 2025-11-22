@@ -31,10 +31,32 @@ public class WalkRecord implements Manageable, UIData, PetOwned {
         memo = scan.nextLine().trim();
     }
 
+    public void apply(Pet pet, LocalDate date, int walkTime,
+                      String photoPath, String memo) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.date = date;
+        this.walkTime = walkTime;
+        this.photoPath = photoPath;
+        this.memo = memo;
+    }
+
     public void print() {
-        System.out.printf("[%s] %d분 / %.2fkm ",
+        System.out.printf("[%s] %d분 | %.2fkm ",
                 date, walkTime, distance);
-        if(!memo.equals("0")) System.out.printf("/ 메모: %s\n", memo);
+        if(!memo.equals("0")) System.out.printf("| 메모: %s\n", memo);
+    }
+
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                photoPath,
+                memo
+        };
     }
 
     public boolean matches(String kwd) {
@@ -59,6 +81,15 @@ public class WalkRecord implements Manageable, UIData, PetOwned {
         return petName;
     }
 
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
+
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
 
     @Override
     public void set(String[] uitexts) {

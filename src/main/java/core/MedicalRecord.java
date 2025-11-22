@@ -29,11 +29,35 @@ public class MedicalRecord implements Manageable, UIData, PetOwned {
         cost = scan.nextInt(); //cost 미정일 경우 -1로 받음
     }
 
+    public void apply(Pet pet, LocalDate date,
+                      String hospital, String category, int cost) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.date = date;
+        this.hospital = hospital;
+        this.category = category;
+        this.cost = cost;
+    }
+
     public void print() {
-        System.out.printf("[%s] %s / %s / %s ",
-                date, hospital, category, cost== -1 ? "미정" : cost);
-        if (!getDDayText().isEmpty()) System.out.printf("/ %s\n", getDDayText());
+        System.out.printf("#%d [%s] %s | %s | %s ",
+                indexId, date, hospital, category,
+                cost== -1 ? "미정" : String.format("%,d원", cost));
+        if (!getDDayText().isEmpty()) System.out.printf("| %s\n", getDDayText());
         else System.out.print("\n");
+    }
+
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                hospital,
+                category,
+                String.valueOf(cost)
+        };
     }
 
     public boolean matches(String kwd) {
@@ -67,6 +91,15 @@ public class MedicalRecord implements Manageable, UIData, PetOwned {
         return petName;
     }
 
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
+
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
 
     @Override
     public void set(String[] uitexts) {

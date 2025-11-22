@@ -22,7 +22,6 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
     public HealthRecord() {}
 
     public void read(Scanner scan) {
-
         indexId = scan.nextInt();
         ownerId = scan.next();
         petName = scan.next();
@@ -37,13 +36,37 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
         }
     }
 
+    public void apply(Pet pet, LocalDate date, int meal,
+                    int water, String brushed, String memo) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.date = date;
+        this.meal = meal;
+        this.water = water;
+        this.brushed = brushed;
+        this.memo = memo;
+    }
+
     public void print() {
         System.out.printf("[%d] %s | 식사:%d 음수:%d 양치:%s | %s%n",
                 indexId, date, meal, water,
                 brushed != null ? brushed : "",
                 memo != null ? memo : ""
         );
+    }
 
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                String.valueOf(meal),
+                String.valueOf(water),
+                brushed,
+                memo
+        };
     }
 
     public boolean matches(String kwd) {
@@ -65,6 +88,15 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
         return petName;
     }
 
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
+
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
 
     @Override
     public void set(String[] uiTexts) {

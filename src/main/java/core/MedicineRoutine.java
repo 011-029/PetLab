@@ -32,34 +32,60 @@ public class MedicineRoutine implements Manageable, UIData, PetOwned {
         dosage = scan.nextInt();
     }
 
+    public void apply(Pet pet, String medicineName,
+                      String takenDOW, String takenTime, int dosage) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.medicineName = medicineName;
+        for (int i = 0; i < takenDOW.length(); i++)
+            this.takenDOW.add(String.valueOf(takenDOW.charAt(i)));
+        this.takenTime = takenTime;
+        this.dosage = dosage;
+    }
+
     public void print() {
-        System.out.printf("#%d / %s / %s / %s / %dmg / ",
+        System.out.printf("#%d | %s | %s | %s | %dmg | ",
                 indexId, medicineName, takenDOW.toString(), takenTime, dosage);
-        if (isTaken) System.out.print("복용 완료");
-        else System.out.print("복용 전");
+        System.out.print(isTaken ? "복용 완료" : "복용 전");
         System.out.println();
+    }
+
+    @Override
+    public String[] toTextArray() {
+        String dow = String.join("", takenDOW);
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                medicineName,
+                dow,
+                takenTime,
+                String.valueOf(dosage)
+        };
     }
 
     public void toggleTaken() {
         // true ↔ false 변경 -> true 면 MedicineRecord 로 생성
         isTaken = !isTaken;
+        MedicineRecordMgr mgr = MedicineRecordMgr.getInstance();
+
         if (isTaken) {
-            MedicineRecord record = toRecord();
-            MedicineRecordMgr.getInstance().addElement(record);
-            lastRecordId = record.indexId;
-//            System.out.printf("▶ %d번으로 Medicine Record가 생성되었습니다\n", lastRecordId);
+            MedicineRecord record = mgr.createFromRoutine(this);
+            lastRecordId = record.getIndexId();
+            System.out.printf("▶ %d번으로 Medicine Record가 생성되었습니다\n", lastRecordId);
         } else {
             if (lastRecordId != -1) {
-                MedicineRecordMgr.getInstance().removeById(lastRecordId);
-//                System.out.printf("▶ %d번 Medicine Record가 삭제되었습니다\n", lastRecordId);
+                mgr.removeByIndexId(lastRecordId);
+                System.out.printf("▶ %d번 Medicine Record가 삭제되었습니다\n", lastRecordId);
                 lastRecordId = -1;
             }
         }
     }
 
-    public MedicineRecord toRecord() {
+    public MedicineRecord RoutineToRecord() {
         MedicineRecord r = new MedicineRecord();
-        r.indexId = MedicineRecordMgr.getInstance().generateIndexId();
+        r.ownerId = this.ownerId;
+        r.petName = this.petName;
         r.medicineName = this.medicineName;
         r.takenDate = LocalDate.now(); // 오늘
         r.takenTime = this.takenTime;
@@ -85,6 +111,15 @@ public class MedicineRoutine implements Manageable, UIData, PetOwned {
         return petName;
     }
 
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
+
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
+    }
 
     @Override
     public void set(String[] uiTexts) {

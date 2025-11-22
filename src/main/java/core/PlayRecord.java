@@ -30,13 +30,36 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
         memo = scan.nextLine().trim();
     }
 
+    public void apply(Pet pet, LocalDate date,
+                      int playTime, String playType, String memo) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.date = date;
+        this.playTime = playTime;
+        this.playType = playType;
+        this.memo = memo;
+    }
+
     public void print() {
         System.out.printf("#%d [%d년 %d월 %d일] ", indexId,
                 date.getYear(), date.getMonthValue(), date.getDayOfMonth());
         System.out.printf("%d분", playTime);
-        if (!playType.equals("0")) System.out.printf(" / %s", playType);
-        if (!memo.equals("0")) System.out.printf(" / 메모: %s", memo);
+        if (!playType.equals("0")) System.out.printf(" | %s", playType);
+        if (!memo.equals("0")) System.out.printf(" | 메모: %s", memo);
         System.out.println();
+    }
+
+    @Override
+    public String[] toTextArray() {
+        return new String[] {
+                String.valueOf(indexId),
+                ownerId,
+                petName,
+                String.valueOf(date),
+                String.valueOf(playTime),
+                playType,
+                memo
+        };
     }
 
     public boolean matches(String kwd) {
@@ -57,6 +80,16 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
     @Override
     public String getPetName() {
         return petName;
+    }
+
+    @Override
+    public int getIndexId() {
+        return indexId;
+    }
+
+    @Override
+    public void setIndexId(int indexId) {
+        this.indexId = indexId;
     }
 
     @Override

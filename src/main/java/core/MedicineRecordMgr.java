@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     private static MedicineRecordMgr mgr = null;
-    int nextIndexId = -1;   // 루틴 → 기록 넘길 시 자동 배정될 인덱스 번호
+    private final String FILE_PATH = "data/medicineRecord.txt";
 
     public static MedicineRecordMgr getInstance() {
         if (mgr == null)
@@ -16,18 +16,11 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
         return mgr;
     }
 
-    public void initNextIndexId() {
-        int max = 0;
-        for (MedicineRecord r: mList) {
-            if (r.indexId > max) {
-                max = r.indexId;
-            }
-        }
-        nextIndexId = max + 1;
-    }
-
-    public int generateIndexId() {
-        return nextIndexId++;
+    public void addNewRecord(Pet pet, String medicineName,
+                             LocalDate takenDate, String takenTime, int dosage) {
+        MedicineRecord r = new MedicineRecord();
+        r.apply(pet, medicineName, takenDate, takenTime, dosage);
+        saveWithIndexId(r);
     }
 
     public ArrayList<MedicineRecord> searchPeriod(LocalDate start, LocalDate end) {
@@ -39,9 +32,10 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
         return result;
     }
 
-    public void removeById(int id) {
-        // mList 안에서 indexId == id인 요소 삭제
-        mList.removeIf(r -> r.indexId == id);
+    public MedicineRecord createFromRoutine(MedicineRoutine routine) {
+        MedicineRecord record = routine.RoutineToRecord();
+        saveWithIndexId(record);
+        return record;
     }
 
     @Override
@@ -50,10 +44,16 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     }
 
     public void loadFromFile() {
-        readAll("data/medicineRecord.txt", new Factory<MedicineRecord>() {
+        readAll(FILE_PATH, new Factory<MedicineRecord>() {
             public MedicineRecord create() {
                 return new MedicineRecord();
             }
         });
+        initNextIndexId();
+    }
+
+    @Override
+    protected String getFilePath() {
+        return FILE_PATH;
     }
 }
