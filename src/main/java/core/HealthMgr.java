@@ -1,5 +1,6 @@
 package core;
 
+import mgr.Factory;
 import mgr.PetRecordMgr;
 
 import java.time.LocalDate;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 
 public class HealthMgr extends PetRecordMgr<HealthRecord> {
     private static HealthMgr mgr = null;
-    private final String FILE_PATH = "data/HealthRecord.txt";
+    private final String FILE_PATH = "data/health_records.txt";
     private int nextIndex = 1;
 
 
@@ -46,13 +47,12 @@ public class HealthMgr extends PetRecordMgr<HealthRecord> {
     }
 
     public void loadFromFile() {
-        // TODO: 건강 기록 데이터 생성 후 아래 주석 해제, 파일 경로 추가
-//        readAll(FILE_PATH, new Factory<HealthRecord>() {
-//            public HealthRecord create() {
-//                return new HealthRecord();
-//            }
-//        });
-//        initNextIndexId();
+        readAll(FILE_PATH, new Factory<HealthRecord>() {
+            public HealthRecord create() {
+                return new HealthRecord();
+            }
+        });
+        initNextIndexId();
     }
 
     @Override

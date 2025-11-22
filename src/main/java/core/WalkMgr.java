@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class WalkMgr extends PetRecordMgr<WalkRecord> {
     private static WalkMgr mgr = null;
-    private static final String FILE_PATH = "data/WalkRecords.txt";
+    private static final String FILE_PATH = "data/walk_records.txt";
 
     public static WalkMgr getInstance() {
         if (mgr == null)

@@ -3,13 +3,14 @@ package core;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import mgr.Factory;
 import mgr.PetRecordMgr;
 
 // 예방접종 기록 관리 클래스
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해둔 상태)
 public class VaccineMgr extends PetRecordMgr<VaccineRecord> {
     private static VaccineMgr mgr = null;
-    private static final String FILE_PATH = "data/VaccineRecord.txt";
+    private static final String FILE_PATH = "data/vaccine_records.txt";
 
     private VaccineMgr() {
         super();
@@ -54,13 +55,12 @@ public class VaccineMgr extends PetRecordMgr<VaccineRecord> {
     }
 
     public void loadFromFile() {
-        // TODO: 예방접종 기록 데이터 생성 후 아래 주석 해제, 파일 경로 추가
-//        readAll(FILE_PATH, new Factory<VaccineRecord>() {
-//            public VaccineRecord create() {
-//                return new VaccineRecord();
-//            }
-//        });
-//        initNextIndexId();
+        readAll(FILE_PATH, new Factory<VaccineRecord>() {
+            public VaccineRecord create() {
+                return new VaccineRecord();
+            }
+        });
+        initNextIndexId();
     }
 
     @Override

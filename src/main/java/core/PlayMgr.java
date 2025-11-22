@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class PlayMgr extends PetRecordMgr<PlayRecord> {
     private static PlayMgr mgr = null;
-    private static final String FILE_PATH = "data/playRecord.txt";
+    private static final String FILE_PATH = "data/play_records.txt";
 
     public static PlayMgr getInstance() {
         if (mgr == null)

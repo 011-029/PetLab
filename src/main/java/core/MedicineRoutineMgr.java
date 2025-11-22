@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
     private static MedicineRoutineMgr mgr = null;
-    private final String FILE_PATH = "data/medicineRoutine.txt";
+    private final String FILE_PATH = "data/medicine_routines.txt";
     Scanner scan = new Scanner(System.in);
 
     public static MedicineRoutineMgr getInstance() {

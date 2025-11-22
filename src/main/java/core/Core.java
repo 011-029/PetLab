@@ -300,10 +300,8 @@ public class Core {
 
     // 건강 기록 기능
     private void healthMenu() {
-        // TODO: 건강 기록 데이터 생성 후 아래 주석 해제
-//        System.out.println("================= 건강 기록 리스트 =================");
-//        healthMgr.printByOwner(loggedInUser.getId());
-        System.out.println("구현중");
+        System.out.println("================= 건강 기록 리스트 =================");
+        healthMgr.printByOwner(loggedInUser.getId());
     }
 
     // 진료 기록 기능
@@ -335,10 +333,8 @@ public class Core {
 
     // 예방접종 기록 기능
     private void vaccineMenu() {
-        // TODO: 예방접종 기록 데이터 생성 후 아래 주석 해제
-//        System.out.println("================= 예방접종 기록 리스트 =================");
-//        vaccineMgr.printByOwner(loggedInUser.getId());
-        System.out.println("구현중");
+        System.out.println("================= 예방접종 기록 리스트 =================");
+        vaccineMgr.printByOwner(loggedInUser.getId());
     }
 
     // 산책 기록 기능

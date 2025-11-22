@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
     private static MedicineRecordMgr mgr = null;
-    private final String FILE_PATH = "data/medicineRecord.txt";
+    private final String FILE_PATH = "data/medicine_records.txt";
 
     public static MedicineRecordMgr getInstance() {
         if (mgr == null)
