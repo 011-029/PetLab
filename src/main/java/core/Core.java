@@ -23,10 +23,17 @@ public class Core {
         return core;
     }
 
+<<<<<<< HEAD
     private final UserMgr userMgr = UserMgr.getInstance();
     private final PetMgr petMgr = PetMgr.getInstance();
     private User loggedInUser;
     private Pet loggedInUserPet;
+=======
+    static UserMgr userMgr = UserMgr.getInstance();
+    static PetMgr petMgr = PetMgr.getInstance();
+    static User loggedInUser;
+    static Pet loggedInUserPet;
+>>>>>>> c460ad4 (feat: add record removal feature)
 
     private final HealthMgr healthMgr = HealthMgr.getInstance();
     private final MedicalMgr medicalMgr = MedicalMgr.getInstance();
@@ -36,7 +43,11 @@ public class Core {
     private final VaccineMgr vaccineMgr = VaccineMgr.getInstance();
     private final WalkMgr walkMgr = WalkMgr.getInstance();
 
+<<<<<<< HEAD
     private final Scanner scan = new Scanner(System.in);
+=======
+    static Scanner scan = new Scanner(System.in);
+>>>>>>> c460ad4 (feat: add record removal feature)
 
     public void run() {
         // 데이터 불러오기
@@ -207,7 +218,11 @@ public class Core {
     }
 
     // 기록 삭제 기능
+<<<<<<< HEAD
     private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
+=======
+    static private <T extends Manageable & PetOwned> void removeRecord(PetRecordMgr<T> mgr) {
+>>>>>>> c460ad4 (feat: add record removal feature)
         System.out.print(">> 삭제할 인덱스 번호: ");
         int indexId = scan.nextInt();
 
