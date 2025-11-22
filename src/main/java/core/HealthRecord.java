@@ -48,8 +48,7 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
 
     public boolean matches(String kwd) {
         if (kwd == null || kwd.isBlank()) return true;
-        if (memo != null && memo.contains(kwd)) return true;
-        return false;
+        return memo != null && memo.contains(kwd);
     }
 
     public boolean matchesPeriod(LocalDate start, LocalDate end){
