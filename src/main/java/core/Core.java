@@ -48,12 +48,8 @@ public class Core {
             int opt = startMenu();
             switch (opt) {
                 case 1 -> signUp();
-                case 2 -> {
-                    if (login()) break loginLoop;
-                }
-                case 3 -> {
-                    return;
-                }
+                case 2 -> { if (login()) break loginLoop; }
+                case 3 -> { return; }
                 default -> System.out.println("잘못 입력하셨습니다.");
             }
         }
@@ -75,10 +71,7 @@ public class Core {
                 case 11 -> printPetsByOwner();
                 case 12 -> updatePetImage();
                 case 13 -> search();
-                case 100 -> removeRecord(medicalMgr);
-                case 0 -> {
-                    return;
-                }
+                case 0 -> { return; }
                 default -> System.out.println("잘못 입력하셨습니다.");
             }
         }
@@ -123,7 +116,6 @@ public class Core {
         System.out.println("0. 종료");
         while (true) {
             try {
-
                 System.out.print(">> 메뉴 입력: ");
                 return scan.nextInt();
             } catch (InputMismatchException e) {
