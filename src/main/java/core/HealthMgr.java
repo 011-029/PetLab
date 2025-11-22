@@ -2,6 +2,9 @@ package core;
 
 import mgr.PetRecordMgr;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 // TODO: 클래스 필드, 메서드 작성 (현재는 필수 구현해야 하는 메서드만 자동완성해 둔 상태)
 public class HealthMgr extends PetRecordMgr<HealthRecord> {
 
@@ -15,6 +18,23 @@ public class HealthMgr extends PetRecordMgr<HealthRecord> {
         if (mgr == null)
             mgr = new HealthMgr();
         return mgr;
+    }
+
+    public ArrayList<HealthRecord> searchPeriod(LocalDate start, LocalDate end) {
+        ArrayList<HealthRecord> result = new ArrayList<>();
+        for(HealthRecord r : mList) {
+            if(r.matchesPeriod(start,end))
+                result.add(r);
+        }
+        return result;
+    }
+
+    public boolean deleteByIndex(int index) {
+        if (index < 0 || index >= mList.size()) {
+            return false;
+        }
+        mList.remove(index);
+        return true;
     }
 
     @Override
