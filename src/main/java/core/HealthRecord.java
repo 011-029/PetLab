@@ -22,7 +22,6 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
     public HealthRecord() {}
 
     public void read(Scanner scan) {
-
         indexId = scan.nextInt();
         ownerId = scan.next();
         petName = scan.next();
@@ -35,6 +34,17 @@ public class HealthRecord implements Manageable, UIData, PetOwned {
         if (scan.hasNextLine()) {
             memo = scan.nextLine().trim();
         }
+    }
+
+    public void apply(Pet pet, LocalDate date, int meal,
+                    int water, String brushed, String memo) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.date = date;
+        this.meal = meal;
+        this.water = water;
+        this.brushed = brushed;
+        this.memo = memo;
     }
 
     public void print() {

@@ -15,6 +15,13 @@ public class WalkMgr extends PetRecordMgr<WalkRecord> {
         return mgr;
     }
 
+    public void addNewRecord(Pet pet, LocalDate date, int walkTime,
+                             String photoPath, String memo) {
+        WalkRecord r = new WalkRecord();
+        r.apply(pet, date, walkTime, photoPath, memo);
+        addWithIndexId(r);
+    }
+
     public ArrayList<WalkRecord> searchPeriod(LocalDate start, LocalDate end) {
         ArrayList<WalkRecord> result = new ArrayList<>();
         for(WalkRecord r : mList) {

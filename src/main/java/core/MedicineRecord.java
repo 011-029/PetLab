@@ -29,8 +29,18 @@ public class MedicineRecord implements Manageable, UIData, PetOwned {
         dosage = scan.nextInt();
     }
 
+    public void apply(Pet pet, String medicineName,
+                      LocalDate takenDate, String takenTime, int dosage) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.medicineName = medicineName;
+        this.takenDate = takenDate;
+        this.takenTime = takenTime;
+        this.dosage = dosage;
+    }
+
     public void print() {
-        System.out.printf("#%d [%s] %s / %s / %dmg",
+        System.out.printf("#%d [%s] %s | %s | %dmg",
                 indexId, takenDate, medicineName, takenTime, dosage);
         System.out.println();
     }

@@ -32,8 +32,19 @@ public class MedicineRoutine implements Manageable, UIData, PetOwned {
         dosage = scan.nextInt();
     }
 
+    public void apply(Pet pet, String medicineName,
+                      String takenDOW, String takenTime, int dosage) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.medicineName = medicineName;
+        for (int i = 0; i < takenDOW.length(); i++)
+            this.takenDOW.add(String.valueOf(takenDOW.charAt(i)));
+        this.takenTime = takenTime;
+        this.dosage = dosage;
+    }
+
     public void print() {
-        System.out.printf("#%d / %s / %s / %s / %dmg / ",
+        System.out.printf("#%d | %s | %s | %s | %dmg | ",
                 indexId, medicineName, takenDOW.toString(), takenTime, dosage);
         System.out.print(isTaken ? "복용 완료" : "복용 전");
         System.out.println();

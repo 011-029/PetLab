@@ -15,6 +15,13 @@ public class MedicineRecordMgr extends PetRecordMgr<MedicineRecord> {
         return mgr;
     }
 
+    public void addNewRecord(Pet pet, String medicineName,
+                             LocalDate takenDate, String takenTime, int dosage) {
+        MedicineRecord r = new MedicineRecord();
+        r.apply(pet, medicineName, takenDate, takenTime, dosage);
+        addWithIndexId(r);
+    }
+
     public ArrayList<MedicineRecord> searchPeriod(LocalDate start, LocalDate end) {
         ArrayList<MedicineRecord> result = new ArrayList<>();
         for(MedicineRecord r : mList) {

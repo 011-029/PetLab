@@ -21,6 +21,13 @@ public class VaccineMgr extends PetRecordMgr<VaccineRecord> {
         return mgr;
     }
 
+    public void addNewRecord(Pet pet, LocalDate date, String vaccine,
+                             String hospital, String memo) {
+        VaccineRecord r = new VaccineRecord();
+        r.apply(pet, date, vaccine, hospital, memo);
+        addWithIndexId(r);
+    }
+
     public ArrayList<VaccineRecord> searchPeriod(LocalDate start, LocalDate end) {
         ArrayList<VaccineRecord> result = new ArrayList<>();
         for(VaccineRecord r : mList) {

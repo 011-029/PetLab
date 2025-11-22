@@ -30,8 +30,8 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
         memo = scan.nextLine().trim();
     }
 
-    public void set(Pet pet, LocalDate date,
-                    int playTime, String playType, String memo) {
+    public void apply(Pet pet, LocalDate date,
+                      int playTime, String playType, String memo) {
         this.ownerId = pet.getOwnerId();
         this.petName = pet.getName();
         this.date = date;
@@ -44,8 +44,8 @@ public class PlayRecord implements Manageable, UIData, PetOwned {
         System.out.printf("#%d [%d년 %d월 %d일] ", indexId,
                 date.getYear(), date.getMonthValue(), date.getDayOfMonth());
         System.out.printf("%d분", playTime);
-        if (!playType.equals("0")) System.out.printf(" / %s", playType);
-        if (!memo.equals("0")) System.out.printf(" / 메모: %s", memo);
+        if (!playType.equals("0")) System.out.printf(" | %s", playType);
+        if (!memo.equals("0")) System.out.printf(" | 메모: %s", memo);
         System.out.println();
     }
 

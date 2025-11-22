@@ -43,10 +43,20 @@ public class VaccineRecord implements Manageable, UIData, PetOwned {
         memo = scan.hasNextLine() ? scan.nextLine().trim() : "";
     }
 
+    public void apply(Pet pet, LocalDate date, String vaccine,
+                      String hospital, String memo) {
+        this.ownerId = pet.getOwnerId();
+        this.petName = pet.getName();
+        this.date = date;
+        this.vaccine = vaccine;
+        this.hospital = hospital;
+        this.memo = memo;
+    }
+
     @Override
     public void print() {
-        System.out.printf("%s %s %s %s (%s)\n",
-                date, safe(vaccine), safe(hospital), safe(memo), getDDayText());
+        System.out.printf("#%d %s %s %s %s (%s)\n",
+                indexId, date, safe(vaccine), safe(hospital), safe(memo), getDDayText());
     }
 
     @Override

@@ -20,6 +20,13 @@ public class HealthMgr extends PetRecordMgr<HealthRecord> {
         return mgr;
     }
 
+    public void addNewRecord(Pet pet, LocalDate date, int meal,
+                             int water, String brushed, String memo) {
+        HealthRecord r = new HealthRecord();
+        r.apply(pet, date, meal, water, brushed, memo);
+        addWithIndexId(r);
+    }
+
     public ArrayList<HealthRecord> searchPeriod(LocalDate start, LocalDate end) {
         ArrayList<HealthRecord> result = new ArrayList<>();
         for(HealthRecord r : mList) {

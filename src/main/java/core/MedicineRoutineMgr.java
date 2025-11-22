@@ -18,32 +18,43 @@ public class MedicineRoutineMgr extends PetRecordMgr<MedicineRoutine> {
         return mgr;
     }
 
-    public void printTodayRoutine() {
+    public void addNewRoutine(Pet pet, String medicineName,
+                              String takenDOW, String takenTime, int dosage) {
+        MedicineRoutine r = new MedicineRoutine();
+        r.apply(pet, medicineName, takenDOW, takenTime, dosage);
+        addWithIndexId(r);
+    }
+
+    public void printTodayRoutine(String ownerId) {
         // 오늘(요일)에 해당하는 루틴 출력
         String todayDOW = LocalDate.now()
                 .getDayOfWeek()
                 .getDisplayName(TextStyle.SHORT, Locale.KOREAN);
 
-        System.out.println("오늘: " + todayDOW);
+        System.out.println("오늘: " + todayDOW + "요일");
         for (MedicineRoutine r: mList) {
-            if (r.takenDOW.contains(todayDOW)) {
+            if (r.takenDOW.contains(todayDOW) && r.ownerId.equals(ownerId)) {
                 r.print();
             }
         }
     }
 
-    public void checkTaken() {
+    public void checkTaken(String ownerId) {
         // 복용 여부 체크기능
         int checkIndexId;
         while (true) {
             System.out.print(">> 복용 체크할 인덱스 번호(-1 입력 시 종료): ");
             checkIndexId = scan.nextInt();
             if (checkIndexId == -1) break;
-            for (MedicineRoutine r: mList) {
-                if (r.indexId == checkIndexId)
-                    r.toggleTaken();
-            }
-            printTodayRoutine();
+
+            MedicineRoutine r = findByIndexId(checkIndexId);
+
+            if (r == null || !r.getOwnerId().equals(ownerId))
+                System.out.println("유효한 인덱스 번호가 아닙니다");
+            else
+                r.toggleTaken();
+
+            printTodayRoutine(ownerId);
         }
     }
 

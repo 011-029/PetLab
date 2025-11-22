@@ -69,12 +69,13 @@ public class Core {
                 case 5 -> playMenu();
                 case 6 -> vaccineMenu();
                 case 7 -> walkMenu();
+                case 8 -> addNewRecordMenu();
+                case 9 -> removeRecordMenu();
                 case 10 -> registerPet();
                 case 11 -> printPetsByOwner();
                 case 12 -> updatePetImage();
                 case 13 -> search();
                 case 100 -> removeRecord(medicalMgr);
-                case 101 -> addNewPlayRecord();
                 case 0 -> {
                     return;
                 }
@@ -113,6 +114,8 @@ public class Core {
         System.out.println("5. 놀이 기록 기능");
         System.out.println("6. 예방접종 기록 기능");
         System.out.println("7. 산책 기록 기능");
+        System.out.println("8. 새 기록 작성 메뉴");
+        System.out.println("9. 기록 삭제 메뉴");
         System.out.println("10. 내 펫 등록");
         System.out.println("11. 내 펫 조회");
         System.out.println("12. 펫 프로필 사진 등록");
@@ -204,8 +207,26 @@ public class Core {
         }
     }
 
+    private void addNewRecordMenu() {
+        System.out.println("============= 기록 작성 메뉴 =============");
+        while (true) {
+            System.out.println("1. 놀이 기록 작성");
+            System.out.println("2. 병원 진료 기록 작성");
+            System.out.println("나머진 귀찮아서 안만들었음..");
+            System.out.println("0. 작성 메뉴 종료");
+            int opt = scan.nextInt();
+            switch (opt) {
+                case 1 -> addNewPlayRecord();
+                case 2 -> addNewMedicalRecord();
+                case 0 -> { return; }
+                default -> System.out.println("잘못 입력하셨습니다");
+            }
+        }
+    }
+
     // 놀이 기록 추가 기능
     private void addNewPlayRecord() {
+        System.out.println("=============== 놀이 기록 작성 ===============");
         System.out.print(">> 날짜 입력: ");
         LocalDate date = ReadUtil.readDate(scan);
         System.out.print(">> 놀이시간 입력: ");
@@ -216,8 +237,49 @@ public class Core {
         scan.nextLine();
         String memo = scan.nextLine();
         playMgr.addNewRecord(loggedInUserPet, date, playTime, playType, memo);
-        System.out.println("새 놀이 기록 추가 완료");
+        System.out.println("새 놀이 기록 작성 완료");
         playMgr.printByOwner(loggedInUser.getId());
+    }
+
+    private void addNewMedicalRecord() {
+        System.out.println("=============== 진료 기록 작성 ===============");
+        System.out.print(">> 날짜 입력: ");
+        LocalDate date = ReadUtil.readDate(scan);
+        System.out.print(">> 병원명 입력: ");
+        String hospital = scan.next();
+        System.out.print(">> 증상 입력: ");
+        String category = scan.next();
+        System.out.print(">> 진료비 입력(-1 입력시 비워둠): ");
+        int cost = scan.nextInt();
+        medicalMgr.addNewRecord(loggedInUserPet, date, hospital, category, cost);
+        System.out.println("새 진료 기록 작성 완료");
+        medicalMgr.printByOwner(loggedInUser.getId());
+    }
+
+    private void removeRecordMenu() {
+        System.out.println("============= 기록 삭제 메뉴 =============");
+        while (true) {
+            System.out.println("1. 건강기록");
+            System.out.println("2. 진료기록");
+            System.out.println("3. 복용기록");
+            System.out.println("4. 복용루틴");
+            System.out.println("5. 놀이기록");
+            System.out.println("6. 예방접종기록");
+            System.out.println("7. 산책기록");
+            System.out.println("0. 삭제 메뉴 종료");
+            int opt = scan.nextInt();
+            switch (opt) {
+                case 1 -> removeRecord(healthMgr);
+                case 2 -> removeRecord(medicalMgr);
+                case 3 -> removeRecord(medicineRecordMgr);
+                case 4 -> removeRecord(medicineRoutineMgr);
+                case 5 -> removeRecord(playMgr);
+                case 6 -> removeRecord(vaccineMgr);
+                case 7 -> removeRecord(walkMgr);
+                case 0 -> { return; }
+                default -> System.out.println("잘못 입력하셨습니다");
+            }
+        }
     }
 
     // 기록 삭제 기능
@@ -266,9 +328,8 @@ public class Core {
         System.out.println("================= 복용 루틴 =================");
         medicineRoutineMgr.printByOwner(loggedInUser.getId());
         System.out.println("-------------- 오늘 복용해야 할 약 --------------");
-        // TODO: 로그인한 유저 루틴만 출력
-        medicineRoutineMgr.printTodayRoutine();
-        medicineRoutineMgr.checkTaken();
+        medicineRoutineMgr.printTodayRoutine(loggedInUser.getId());
+        medicineRoutineMgr.checkTaken(loggedInUser.getId());
     }
 
     // 놀이 기록 기능
@@ -401,8 +462,8 @@ public class Core {
                 // 5. 오늘 루틴 보기 + 체크 ---------------------------
                 case "5" -> {
                     System.out.println("\n----------------- 오늘 복용해야 할 약 -----------------");
-                    medicineRoutineMgr.printTodayRoutine();
-                    medicineRoutineMgr.checkTaken();
+                    medicineRoutineMgr.printTodayRoutine(loggedInUser.getId());
+                    medicineRoutineMgr.checkTaken(loggedInUser.getId());
                 }
 
                 // 0. 종료 --------------------------------------------

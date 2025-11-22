@@ -19,7 +19,7 @@ public class PlayMgr extends PetRecordMgr<PlayRecord> {
     public void addNewRecord(Pet pet, LocalDate date, int playTime,
                              String playType, String memo) {
         PlayRecord r = new PlayRecord();
-        r.set(pet, date, playTime, playType, memo);
+        r.apply(pet, date, playTime, playType, memo);
         addWithIndexId(r);
     }
 
