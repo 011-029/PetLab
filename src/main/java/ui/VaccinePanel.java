@@ -175,7 +175,7 @@ public class VaccinePanel extends JPanel {
     // 3. 날짜 기준(과거/예정) 필터링
     private void filterByDate(boolean isPast) {
         ArrayList<VaccineRecord> result = new ArrayList<>();
-        String today = LocalDate.now().toString(); // 오늘 날짜 (YYYY-MM-DD 형태)
+        LocalDate today = LocalDate.now(); // 오늘 날짜 (YYYY-MM-DD 형태)
 
         for (VaccineRecord r : allList) {
             // 날짜 문자열 비교 (예: "2025-01-01" vs "2025-11-18")
